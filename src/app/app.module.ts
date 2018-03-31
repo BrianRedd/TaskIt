@@ -4,7 +4,13 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { TasksPage } from '../pages/tasks/tasks';
+import { CompletedPage } from '../pages/completed/completed';
+import { UserPage } from '../pages/user/user';
+import { NewTaskPage } from '../pages/newtask/newtask';
+import { LoginPage } from '../pages/login/login';
+import { AboutPage } from '../pages/about/about';
+import { NewUserPage } from "../pages/newuser/newuser";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -13,7 +19,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    TasksPage,
+    CompletedPage,
+    UserPage,
+    NewTaskPage,
+    AboutPage,
+    LoginPage,
+    NewUserPage
   ],
   imports: [
     BrowserModule,
@@ -23,7 +35,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    TasksPage,
+    CompletedPage,
+    UserPage,
+    NewTaskPage,
+    AboutPage,
+    LoginPage,
+    NewUserPage
   ],
   providers: [
     StatusBar,

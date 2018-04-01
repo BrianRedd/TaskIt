@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from "@ionic/storage";
 import { Observable } from "rxjs/Observable";
-import { Observer } from "rxjs/Observer";
+//import { Observer } from "rxjs/Observer";
 import 'rxjs/add/observable/fromPromise';
 
 //import { UserVO } from "../../shared/UserVO";

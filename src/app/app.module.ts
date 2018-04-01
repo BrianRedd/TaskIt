@@ -16,6 +16,7 @@ import { TaskDetailPage } from "../pages/taskdetail/taskdetail";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { UserModel } from "../models/usermodel";
 import { GetuserdataProvider } from '../providers/getuserdata/getuserdata';
 import { GettaskdataProvider } from '../providers/gettaskdata/gettaskdata';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
@@ -54,6 +55,7 @@ import { AuthenticationProvider } from '../providers/authentication/authenticati
   providers: [
     StatusBar,
     SplashScreen,
+    UserModel,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GetuserdataProvider,
     GettaskdataProvider,

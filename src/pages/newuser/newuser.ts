@@ -4,6 +4,7 @@ import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { Storage } from "@ionic/storage";
 
 import { UserVO } from "../../shared/UserVO";
+import { GetuserdataProvider } from "../../providers/getuserdata/getuserdata";
 
 @IonicPage()
 @Component({
@@ -33,9 +34,22 @@ export class NewUserPage {
     private formBuilder: FormBuilder,
     private storage: Storage,
     private toastCtrl: ToastController,
+    private getUserService: GetuserdataProvider,
     public navParams: NavParams
   ) {
-    storage.get("TIusers").then((users) => {
+    getUserService.getTIUsers().subscribe((users) => {
+      if (users) {
+        console.log("From GetUserService: New User: " + users.length + " users remembered");
+        this.users = users;
+        this.newid = users.length;
+      } else {
+        console.log("From GetUserService: New User: no users remembered");
+        this.users = [];
+        this.newid = 0;
+        this.newuser = true;
+      }
+    });
+    /*storage.get("TIusers").then((users) => {
       if (users) {
         console.log("New User: " + users.length + " users remembered");
         this.users = users;
@@ -46,7 +60,7 @@ export class NewUserPage {
         this.newid = 0;
         this.newuser = true;
       }
-    });
+    });*/
     this.newuserForm = this.formBuilder.group({
       firstname: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
       lastname: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],

@@ -5,6 +5,8 @@ import { Storage } from "@ionic/storage";
 
 import { NewUserPage } from "../../pages/newuser/newuser";
 
+//import { UserVO } from "../../shared/UserVO";
+import { GetuserdataProvider } from "../../providers/getuserdata/getuserdata";
 import { AuthenticationProvider } from "../../providers/authentication/authentication";
 
 @IonicPage()
@@ -22,6 +24,7 @@ export class LoginPage {
     private formBuilder: FormBuilder,
     private modalCtrl: ModalController,
     private authService: AuthenticationProvider,
+    private getUserService: GetuserdataProvider,
     private storage: Storage,
     public navParams: NavParams
   ) {
@@ -29,7 +32,12 @@ export class LoginPage {
     this.loginForm = this.formBuilder.group({
       username: ["", Validators.required],
       password: ["", Validators.required],
-      remember: true
+      remember: false
+    });
+    getUserService.getTIUsers().subscribe(users => {
+      if (!users) {
+        this.openNewUserModal();
+      }
     });
   }
 
@@ -38,18 +46,16 @@ export class LoginPage {
   }
 
   isCurrentUserRemembered() {
-    this.storage.get("CTIuser").then((user) => {
+    this.getUserService.getCTIUser().subscribe(user => {
       if (user) {
-        console.log("Stored Current TaskIt user:", user);
+        console.log("From GetUserService: Stored Current TaskIt user:", user);
         this.loginForm.patchValue({
           "username": user.username,
           "password": user.password
         });
       } else {
-        console.log("No stored Current TaskIt user");
-        //TO DO: look for "users" in storage, if no users, then open Modal
-        //should be able to remember users but not remember current user
-        this.openNewUserModal();
+        console.log("From GetUserService: No stored Current TaskIt user");
+        //this.openNewUserModal();
       }
     });
   };

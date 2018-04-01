@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { TaskDetailPage } from '../taskdetail/taskdetail';
 
 /**
- * Generated class for the TasksPage page.
+ * Generated class for the TaskDetailPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -11,20 +10,16 @@ import { TaskDetailPage } from '../taskdetail/taskdetail';
 
 @IonicPage()
 @Component({
-  selector: 'page-tasks',
-  templateUrl: 'tasks.html',
+  selector: 'page-taskdetail',
+  templateUrl: 'taskdetail.html',
 })
-export class TasksPage {
+export class TaskDetailPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TasksPage');
-  }
-
-  openTask() {
-    this.navCtrl.push(TaskDetailPage);
+    console.log('ionViewDidLoad TaskDetailPage');
   }
 
 }

@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicStorageModule } from "@ionic/storage";
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -11,9 +12,13 @@ import { NewTaskPage } from '../pages/newtask/newtask';
 import { LoginPage } from '../pages/login/login';
 import { AboutPage } from '../pages/about/about';
 import { NewUserPage } from "../pages/newuser/newuser";
+import { TaskDetailPage } from "../pages/taskdetail/taskdetail";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { GetuserdataProvider } from '../providers/getuserdata/getuserdata';
+import { GettaskdataProvider } from '../providers/gettaskdata/gettaskdata';
+import { AuthenticationProvider } from '../providers/authentication/authentication';
 
 @NgModule({
   declarations: [
@@ -25,11 +30,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     NewTaskPage,
     AboutPage,
     LoginPage,
-    NewUserPage
+    NewUserPage,
+    TaskDetailPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -41,12 +48,16 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     NewTaskPage,
     AboutPage,
     LoginPage,
-    NewUserPage
+    NewUserPage,
+    TaskDetailPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    GetuserdataProvider,
+    GettaskdataProvider,
+    AuthenticationProvider
   ]
 })
 export class AppModule {}

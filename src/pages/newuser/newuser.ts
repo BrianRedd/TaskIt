@@ -4,7 +4,6 @@ import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { Storage } from "@ionic/storage";
 
 import { UserVO } from "../../shared/UserVO";
-//import { UserModel } from "../../models/usermodel";
 
 @IonicPage()
 @Component({
@@ -33,7 +32,6 @@ export class NewUserPage {
     private viewCtrl: ViewController,
     private formBuilder: FormBuilder,
     private storage: Storage,
-    //private usermodel: UserModel,
     private toastCtrl: ToastController,
     public navParams: NavParams
   ) {
@@ -115,8 +113,10 @@ export class NewUserPage {
       this.user.image = "Later";
       console.log("New User: user after form:", this.user);
       this.users.push(this.user);
-      this.storage.set("TIusers", this.users).then(() => {
-        this.viewCtrl.dismiss();
+      this.storage.set("CTIuser", this.user).then(() => {
+        this.storage.set("TIusers", this.users).then(() => {
+          this.viewCtrl.dismiss();
+        });
       });
     } else {
       if (!errmess) {

@@ -25,7 +25,20 @@ export class LoginPage {
     private storage: Storage,
     public navParams: NavParams
   ) {
-    storage.get("CTIuser").then((user) => {
+    this.isCurrentUserRemembered();
+    this.loginForm = this.formBuilder.group({
+      username: ["", Validators.required],
+      password: ["", Validators.required],
+      remember: true
+    });
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad LoginPage');
+  }
+
+  isCurrentUserRemembered() {
+    this.storage.get("CTIuser").then((user) => {
       if (user) {
         console.log("Stored Current TaskIt user:", user);
         this.loginForm.patchValue({
@@ -39,16 +52,7 @@ export class LoginPage {
         this.openNewUserModal();
       }
     });
-    this.loginForm = this.formBuilder.group({
-      username: ["", Validators.required],
-      password: ["", Validators.required],
-      remember: true
-    });
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
-  }
+  };
 
   onSubmit() {
     this.user.username = this.loginForm.get("username").value;
@@ -65,7 +69,7 @@ export class LoginPage {
     let modal = this.modalCtrl.create(NewUserPage);
     modal.present();
     modal.onDidDismiss(() => {
-
+      this.isCurrentUserRemembered();
     })
   };
 

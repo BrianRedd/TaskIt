@@ -1,11 +1,45 @@
 <ion-header>
     <ion-navbar color="success">
-        <!--<button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
-        </button>-->
+        <ion-buttons start [hidden]="newuser">
+            <button ion-button (click)="dismiss()">
+                <span ion-text showWhen="ios">Cancel</span>
+                <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+            </button>
+        </ion-buttons>
         <ion-title>New User</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+    <form [formGroup]="newuserForm" (ngSubmit)="onSubmit()">
+        <ion-item>
+            <ion-label floating>First Name (2-25 characters)</ion-label>
+            <ion-input type="text" formControlName="firstname"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Last Name (2-25 characters)</ion-label>
+            <ion-input type="text" formControlName="lastname"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Username (5-25 characters)</ion-label>
+            <ion-input type="text" formControlName="username"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>New Password</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Confirm Password</ion-label>
+            <ion-input type="password" formControlName="confirm"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Email</ion-label>
+            <ion-input type="text" formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Birthday</ion-label>
+            <ion-datetime displayFormat="MMM DD, YYYY" pickerFormat="MMM DD, YYYY" formControlName="birthday"></ion-datetime>
+        </ion-item>
+        <button ion-button float-left type="submit" [disabled]="!newuserForm.valid" color="success">Login</button>
+    </form>
 </ion-content>

@@ -3,9 +3,6 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { Storage } from "@ionic/storage";
 
-import { UserVO } from "../../shared/UserVO";
-import { UserModel } from "../../models/usermodel";
-
 import { NewUserPage } from "../../pages/newuser/newuser";
 
 import { AuthenticationProvider } from "../../providers/authentication/authentication";
@@ -37,6 +34,8 @@ export class LoginPage {
         });
       } else {
         console.log("No stored Current TaskIt user");
+        //TO DO: look for "users" in storage, if no users, then open Modal
+        //should be able to remember users but not remember current user
         this.openNewUserModal();
       }
     });
@@ -59,6 +58,7 @@ export class LoginPage {
     } else {
       this.storage.remove("CTIuser");
     }
+    //TO DO: Check credentials against "users" stored in memory
   };
 
   openNewUserModal() {

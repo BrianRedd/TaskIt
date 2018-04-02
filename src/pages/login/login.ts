@@ -53,14 +53,14 @@ export class LoginPage {
   isCurrentUserRemembered() {
     this.getUserService.getCTIUser().subscribe(user => {
       if (user) {
-        console.log("From GetUserService: Stored Current TaskIt user:", user);
+        //console.log("From GetUserService: Stored Current TaskIt user:", user);
         this.loginForm.patchValue({
           "username": user.username,
           "password": user.password,
           "remember": true
         });
       } else {
-        console.log("From GetUserService: No stored Current TaskIt user");
+        //console.log("From GetUserService: No stored Current TaskIt user");
       }
     });
   };
@@ -79,12 +79,13 @@ export class LoginPage {
   validateUser(username: string, password: string) {
     this.authService.validateUser(username, password).subscribe(data => {
       this.authenticated = data;
-      console.log("this.authenticated", this.authenticated);
+      //console.log("this.authenticated", this.authenticated);
       if (this.authenticated) {
-        console.log("this.userModel.validateUser()", this.userModel.validateUser());
+       // console.log("this.userModel.validateUser()", this.userModel.validateUser());
+        this.mmmToast("User " + username + " successfully logged in!", "top");
         this.navCtrl.setRoot(HomePage);
       } else {
-        this.badToast("Login Failed; Please Try Again!");
+        this.mmmToast("Login Failed; Please Try Again!", "middle");
         this.loginForm.patchValue({
           "password": "",
           "remember": false
@@ -101,11 +102,12 @@ export class LoginPage {
     })
   };
 
-  badToast(msg: string) {
+  mmmToast(msg: string, pos: string) {
+    if (!pos) { pos = "middle"};
     console.log(msg);
     let toast = this.toastCtrl.create({
       message: msg,
-      position: "middle",
+      position: pos,
       duration: 3000
     });
     toast.present();

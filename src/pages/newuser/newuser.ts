@@ -39,28 +39,16 @@ export class NewUserPage {
   ) {
     getUserService.getTIUsers().subscribe((users) => {
       if (users) {
-        console.log("From GetUserService: New User: " + users.length + " users remembered");
+        //console.log("From GetUserService: New User: " + users.length + " users remembered");
         this.users = users;
         this.newid = users.length;
       } else {
-        console.log("From GetUserService: New User: no users remembered");
+        //console.log("From GetUserService: New User: no users remembered");
         this.users = [];
         this.newid = 0;
         this.newuser = true;
       }
     });
-    /*storage.get("TIusers").then((users) => {
-      if (users) {
-        console.log("New User: " + users.length + " users remembered");
-        this.users = users;
-        this.newid = users.length;
-      } else {
-        console.log("New User: no users remembered");
-        this.users = [];
-        this.newid = 0;
-        this.newuser = true;
-      }
-    });*/
     this.newuserForm = this.formBuilder.group({
       firstname: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
       lastname: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
@@ -80,11 +68,12 @@ export class NewUserPage {
     this.viewCtrl.dismiss();
   }
 
-  badToast(msg: string) {
+  mmmToast(msg: string, pos: string) {
+    if (!pos) { pos = "middle"};
     console.log(msg);
     let toast = this.toastCtrl.create({
       message: msg,
-      position: "middle",
+      position: pos,
       duration: 3000
     });
     toast.present();
@@ -93,9 +82,9 @@ export class NewUserPage {
   onSubmit() {
     let isvalid: boolean = true;
     let errmess: boolean = false;
-    console.log("New User: user before form:", this.user);
+    //console.log("New User: user before form:", this.user);
     if (this.newuserForm.get("password").value != this.newuserForm.get("confirm").value) {
-      this.badToast("Passwords don't match!");
+      this.mmmToast("Passwords don't match!", "middle");
       errmess = true;
       isvalid = false;
       this.newuserForm.patchValue({
@@ -110,7 +99,7 @@ export class NewUserPage {
           dup = true;
         }
         if (dup) {
-          this.badToast("Username must be unique!");
+          this.mmmToast("Username must be unique!", "middle");
           errmess = true;
           isvalid = false;
         }
@@ -125,7 +114,7 @@ export class NewUserPage {
       this.user.email = this.newuserForm.get("email").value;      
       this.user.birthday = this.newuserForm.get("birthday").value;
       this.user.image = "Later";
-      console.log("New User: user after form:", this.user);
+      //console.log("New User: user after form:", this.user);
       this.users.push(this.user);
       this.storage.set("CTIuser", this.user).then(() => {
         this.storage.set("TIusers", this.users).then(() => {
@@ -134,7 +123,7 @@ export class NewUserPage {
       });
     } else {
       if (!errmess) {
-        this.badToast("Error with form; try again.");
+        this.mmmToast("Error with form; try again.", "middle");
       }
     }
   }

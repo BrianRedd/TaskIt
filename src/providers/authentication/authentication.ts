@@ -25,14 +25,14 @@ export class AuthenticationProvider {
           let res: boolean = false;
           if (users) {
             for (var i: number = 0; i < users.length; i++) {
-              console.log("Compare TIUser" + i + "; does " + username + " match " + users[i].username);
+              //console.log("Compare TIUser" + i + "; does " + username + " match " + users[i].username);
               if (username === users[i].username) {
-                console.log("Username match:", username);
+                //console.log("Username match:", username);
                 if (password === users[i].password) {
-                  console.log("Passwords match! Hazzah!");
+                  //console.log("Passwords match! Hazzah!");
                   res = true;
                   this.userModel.user = users[i];
-                  console.log("AuthService: this.userModel.user", this.userModel.user);
+                  //console.log("AuthService: this.userModel.user", this.userModel.user);
                 }
               }
             }
@@ -44,7 +44,7 @@ export class AuthenticationProvider {
           }
         });
       });
-      console.log("o", o);
+      //console.log("o", o);
     return o;
   };
 

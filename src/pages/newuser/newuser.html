@@ -38,8 +38,8 @@
         </ion-item>
         <ion-item>
             <ion-label floating>Birthday</ion-label>
-            <ion-datetime displayFormat="MMM DD, YYYY" pickerFormat="MMM DD, YYYY" formControlName="birthday"></ion-datetime>
+            <ion-datetime displayFormat="MMM DD, 2000" pickerFormat="MMM DD, YYYY" formControlName="birthday"></ion-datetime>
         </ion-item>
-        <button ion-button float-left type="submit" [disabled]="!newuserForm.valid" color="success">Login</button>
+        <button ion-button float-left type="submit" [disabled]="!newuserForm.valid" color="success">Submit</button>
     </form>
 </ion-content>

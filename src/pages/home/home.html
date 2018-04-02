@@ -8,4 +8,20 @@
 </ion-header>
 
 <ion-content padding>
+    <ion-grid>
+        <h1>Welcome {{user.firstname}}</h1>
+        <h3 (click)="updateDateTime()">{{date}} {{time}}</h3>
+        <ion-card>
+            <ion-card-title>Next Due Task</ion-card-title>
+            <ion-card-content>
+                TO DO: Next due task here
+            </ion-card-content>
+        </ion-card>
+        <ion-card>
+            <ion-card-title>Next High Priority Task</ion-card-title>
+            <ion-card-content>
+                TO DO: Next high priority task here
+            </ion-card-content>
+        </ion-card>
+    </ion-grid>
 </ion-content>

@@ -20,6 +20,7 @@ import { UserModel } from "../models/usermodel";
 import { GetuserdataProvider } from '../providers/getuserdata/getuserdata';
 import { GettaskdataProvider } from '../providers/gettaskdata/gettaskdata';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
+import { DateconverterProvider } from '../providers/dateconverter/dateconverter';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { AuthenticationProvider } from '../providers/authentication/authenticati
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GetuserdataProvider,
     GettaskdataProvider,
-    AuthenticationProvider
+    AuthenticationProvider,
+    DateconverterProvider
   ]
 })
 export class AppModule {}

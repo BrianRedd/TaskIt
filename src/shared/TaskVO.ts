@@ -1,5 +1,5 @@
 export class TaskVO {
-    taskId: number;
+    id: number;
     dateCreated: string;
     dateCompleted: string;
     dateScheduled: string;
@@ -9,4 +9,10 @@ export class TaskVO {
     priority: number;
     category: number;
     completed: boolean;
+    list: ListVO[];
+}
+
+export class ListVO {
+    id: number;
+    title: string;
 }

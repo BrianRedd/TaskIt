@@ -1,11 +1,12 @@
 export class TaskVO {
     id: number;
+    title: string;
+    description: string;
     dateCreated: string;
     dateCompleted: string;
     dateScheduled: string;
     dateUpdated: string;
-    title: string;
-    description: string;
+    recurring: boolean;
     priority: number;
     category: number;
     completed: boolean;

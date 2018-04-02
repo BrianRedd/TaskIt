@@ -8,5 +8,32 @@
 </ion-header>
 
 <ion-content padding>
-    <button ion-button color="secondary" (click)="openTask()">Open Task</button>
+    <!--button ion-button color="secondary" (click)="openTaskDetail()">Open Task</button-->
+</ion-content>
+
+<ion-content>
+    <div *ngIf="tasks">
+        <ion-list>
+            <ion-item-sliding *ngFor="let task of tasks" #item>
+                <ion-item (click)="openTaskDetail()">
+                    <h3>{{task.title}}</h3>
+                    <p>{{task.description}}</p>
+                    <ion-icon name="flag" item-end large></ion-icon>
+                </ion-item>
+                <ion-item-options side="left">
+                    <button ion-button (click)="completeTask(item, task.id)">
+                        <ion-icon name="checkmark-circle-outline"></ion-icon>
+                    </button>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-list>
+    </div>
+    <div [hidden]="tasks">
+        <ion-spinner></ion-spinner>
+        <h4>Loading Tasks . . . Please Wait</h4>
+    </div>
+    <!--div *ngIf="errMess">
+        <h2>Error</h2>
+        <h4>{{errMess}}</h4>
+    </div-->
 </ion-content>

@@ -7,5 +7,38 @@
     </ion-navbar>
 </ion-header>
 
+
+title: ["", [Validators.required]], description: ["", [Validators.required]], dateScheduled: "", recurring: false, priority: 1, category: 0, list: ""
+
 <ion-content padding>
+    <form [formGroup]="newTaskForm" (ngSubmit)="onSubmit()">
+        <ion-item>
+            <ion-label floating required>Task Title</ion-label>
+            <ion-input type="text" formControlName="title"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Task Description</ion-label>
+            <ion-input type="text" formControlName="description"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Date Scheduled</ion-label>
+            <ion-datetime displayFormat="MMM DD, YYYY" pickerFormat="MMM DD, YYYY" min="{{todayStr}}" formControlName="dateScheduled"></ion-datetime>
+        </ion-item>
+        <ion-item>
+            <ion-label>Annual Recurrance</ion-label>
+            <ion-toggle formControlName="recurring"></ion-toggle>
+        </ion-item>
+        <ion-item>
+            <ion-label>Priority</ion-label>
+            <ion-range formControlName="priority" min="0" max="2" snaps="true">
+                <ion-icon range-left name="arrow-dropdown-circle"></ion-icon>
+                <ion-icon range-right name="alert"></ion-icon>
+            </ion-range>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>List Items</ion-label>
+            <ion-textarea formControlName="list" rows="8"></ion-textarea>
+        </ion-item>
+        <button ion-button float-left type="submit" [disabled]="!newTaskForm.valid" color="success">Submit</button>
+    </form>
 </ion-content>

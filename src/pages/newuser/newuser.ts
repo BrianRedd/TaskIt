@@ -74,7 +74,7 @@ export class NewUserPage {
     let toast = this.toastCtrl.create({
       message: msg,
       position: pos,
-      duration: 3000
+      duration: 2000
     });
     toast.present();
   };

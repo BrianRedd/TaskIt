@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { LoginPage } from "../login/login";
+import { TasksPage } from "../tasks/tasks";
 
 import { UserModel } from "../../models/usermodel";
 import { UserVO } from "../../shared/UserVO";
@@ -67,15 +68,17 @@ export class HomePage  {
         console.log(this.tasks);
       }
     });
-
   }
 
   updateDateTime() {
     this.datetime = new Date();
     this.date = this.datetime.toDateString();
     this.time = this.datetime.toLocaleTimeString();
-
   };
+
+  openTaskPage() {
+    this.navCtrl.push(TasksPage);
+  }
 
 
   

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ItemSliding } from 'ionic-angular';
 import { TaskDetailPage } from '../taskdetail/taskdetail';
+import { NewTaskPage } from "../newtask/newtask";
 
 import { UserModel } from "../../models/usermodel";
 import { UserVO } from "../../shared/UserVO";
@@ -39,6 +40,10 @@ export class TasksPage {
 
   openTaskDetail() {
     this.navCtrl.push(TaskDetailPage);
+  }
+
+  openNewTaskPage() {
+    this.navCtrl.push(NewTaskPage);
   }
 
   completeTask(item: ItemSliding, id: number) {

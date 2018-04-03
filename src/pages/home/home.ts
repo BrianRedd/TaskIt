@@ -39,7 +39,8 @@ export class HomePage  {
     getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
       if (!tasks) {
         let newtask: TaskVO = new TaskVO();
-        if (this.user.birthday) {          
+        if (this.user.birthday) {
+          newtask.id = 0;
           let temp: any = this.dateService.dateToString(this.datetime);
           newtask.dateCreated = temp;
           newtask.title = this.user.firstname + "'s Birthday";
@@ -49,6 +50,7 @@ export class HomePage  {
           newtask.recurring = true;
           console.log("Birthday Task:", newtask);
         } else {
+          newtask.id = 0;
           let temp: any = this.dateService.dateToString(this.datetime);
           newtask.dateCreated = temp;
           newtask.title = this.user.firstname + "'s First Task";

@@ -1,9 +1,12 @@
 <ion-header>
     <ion-navbar color="primary-dark">
         <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-        <ion-title>Home</ion-title>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            <ion-icon name="home"></ion-icon>
+            <span>Home</span>
+        </ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -23,6 +26,9 @@
                 TO DO: Next high priority task here
             </ion-card-content>
         </ion-card>
-        <button ion-button color="secondary" (click)="openTaskPage()">Open Task Page</button>
+        <button ion-button color="secondary" (click)="openTaskPage()" icon-left>
+            <ion-icon name="list-box"></ion-icon>
+            <span>Open Task Page</span>
+        </button>
     </ion-grid>
 </ion-content>

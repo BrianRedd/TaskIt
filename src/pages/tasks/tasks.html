@@ -1,9 +1,12 @@
 <ion-header>
     <ion-navbar color="secondary">
         <button ion-button menuToggle>
-    <ion-icon name="menu"></ion-icon>
-  </button>
-        <ion-title>Tasks</ion-title>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            <ion-icon name="list-box"></ion-icon>
+            <span>Tasks</span>
+        </ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -32,6 +35,10 @@
         <ion-spinner></ion-spinner>
         <h4>Loading Tasks . . . Please Wait</h4>
     </div>
+    <button ion-button color="success" (click)="openNewTaskPage()" icon-left float-right>
+        <ion-icon name="create"></ion-icon>
+        <span>Create New Task</span>
+    </button>
     <!--div *ngIf="errMess">
         <h2>Error</h2>
         <h4>{{errMess}}</h4>

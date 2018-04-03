@@ -6,7 +6,10 @@
                 <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-title>New User</ion-title>
+        <ion-title>
+            <ion-icon name="person-add"></ion-icon>
+            <span>New User</span>
+        </ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -38,7 +41,7 @@
         </ion-item>
         <ion-item>
             <ion-label floating>Birthday</ion-label>
-            <ion-datetime displayFormat="MMM DD, 2000" pickerFormat="MMM DD, YYYY" formControlName="birthday"></ion-datetime>
+            <ion-datetime displayFormat="MMM DD, YYYY" pickerFormat="MMM DD, YYYY" formControlName="birthday"></ion-datetime>
         </ion-item>
         <button ion-button float-left type="submit" [disabled]="!newuserForm.valid" color="success">Submit</button>
     </form>

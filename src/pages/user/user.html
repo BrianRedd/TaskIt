@@ -1,11 +1,15 @@
 <ion-header>
-    <ion-navbar color="success">
+    <ion-navbar color="primary">
         <button ion-button menuToggle>
-    <ion-icon name="menu"></ion-icon>
-  </button>
-        <ion-title>User</ion-title>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            <ion-icon name="contact"></ion-icon>
+            <span>User</span>
+        </ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+    {{user | json}}
 </ion-content>

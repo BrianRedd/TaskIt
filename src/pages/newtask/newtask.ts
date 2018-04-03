@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { Storage } from "@ionic/storage";
+import { TasksPage } from "../tasks/tasks";
 
 import { UserModel } from "../../models/usermodel";
 import { UserVO } from "../../shared/UserVO";
@@ -53,26 +54,31 @@ export class NewTaskPage {
   }
 
   onSubmit() {
-    this.task = new TaskVO();
-    this.task.id = this.tasks.length;
-    this.task.title = this.newTaskForm.get("title").value;
-    if (!this.newTaskForm.get("description").value) {
-      this.task.description = this.task.title;
-    } else {
-      this.task.description = this.newTaskForm.get("description").value;
-    }
-    this.task.dateScheduled = this.newTaskForm.get("dateScheduled").value;
-    this.task.recurring = this.newTaskForm.get("recurring").value;
-    this.task.priority = this.newTaskForm.get("priority").value;
-    let tmplist: any = new ListVO();
-    tmplist.id = 0;
-    tmplist.title = this.newTaskForm.get("list").value;
-    this.task.list = tmplist;
-    this.tasks.push(this.task);
-    this.getTaskService.setUserTasks(this.user.id, this.tasks).subscribe(tasks => {
+    this.getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
       this.tasks = tasks;
+      this.task = new TaskVO();
+      this.task.id = this.tasks.length;
+      this.task.title = this.newTaskForm.get("title").value;
+      if (!this.newTaskForm.get("description").value) {
+        this.task.description = this.task.title;
+      } else {
+        this.task.description = this.newTaskForm.get("description").value;
+      }
+      this.task.dateScheduled = this.newTaskForm.get("dateScheduled").value;
+      this.task.recurring = this.newTaskForm.get("recurring").value;
+      this.task.priority = this.newTaskForm.get("priority").value;
+      let tmplist: any = new ListVO();
+      tmplist.id = 0;
+      tmplist.title = this.newTaskForm.get("list").value;
+      this.task.list = tmplist;
+      console.log("New task", this.task)
+      this.tasks.push(this.task);
+      this.getTaskService.setUserTasks(this.user.id, this.tasks).subscribe(tasks => {
+        this.tasks = tasks;
+        console.log("Tasks updated", this.tasks);
+        this.navCtrl.push(TasksPage);
+      });
     });
-    console.log("Tasks updated", this.task, this.tasks);
   };
 
 }

@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Validators, FormBuilder, FormGroup } from "@angular/forms";
+import { Storage } from "@ionic/storage";
 
-/**
- * Generated class for the UserPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { UserModel } from "../../models/usermodel";
+import { UserVO } from "../../shared/UserVO";
 
 @IonicPage()
 @Component({
@@ -15,7 +13,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class UserPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  user: UserVO = this.userModel.user;
+
+  constructor(
+    public navCtrl: NavController, 
+    private userModel: UserModel,
+    public navParams: NavParams
+  ) {
   }
 
   ionViewDidLoad() {

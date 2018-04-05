@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the TaskDetailPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { TaskVO } from "../../shared/TaskVO";
 
 @IonicPage()
 @Component({
@@ -15,7 +10,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class TaskDetailPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  task: TaskVO;
+
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams
+  ) {
+    this.task = navParams.get("task");
   }
 
   ionViewDidLoad() {

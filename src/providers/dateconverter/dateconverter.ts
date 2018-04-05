@@ -12,6 +12,10 @@ export class DateconverterProvider {
 
   //standard date string format: YYYY-MM-DD
 
+  stringToDate(str: any) {
+    return new Date(str);
+  }
+
   dateToString(date: any) {
     let newdate: any = new Date(date);
     let yyyy: any = newdate.getFullYear();

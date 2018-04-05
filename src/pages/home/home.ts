@@ -36,6 +36,9 @@ export class HomePage  {
     if (!userModel.validateUser()) {
       this.navCtrl.setRoot(LoginPage);
     }
+    if (this.user.image === "Later") { //remove filler value for now
+      this.user.image = null;
+    }
     getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
       if (!tasks) {
         let newtask: TaskVO = new TaskVO();

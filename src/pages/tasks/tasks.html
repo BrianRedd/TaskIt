@@ -17,11 +17,31 @@
 <ion-content>
     <div *ngIf="tasks">
         <ion-list>
-            <ion-item-sliding *ngFor="let task of tasks" #item>
-                <ion-item (click)="openTaskDetail()">
-                    <h3>{{task.title}}</h3>
-                    <p>{{task.description}}</p>
-                    <ion-icon name="flag" item-end large></ion-icon>
+            <ion-item-sliding *ngFor="let task of tasks" #item class="{{task.style}}">
+                <ion-item (click)="openTaskDetail($event, task)">
+                    <ion-row>
+                        <ion-col col-10>
+                            <h3>{{task.title}}</h3>
+                            <p>{{task.description}}</p>
+                        </ion-col>
+                        <ion-col col-2>
+                            <ion-icon name="{{task.flag}}" large item-end color="{{task.flagcolor}}"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col col-12>
+                            <ion-row>
+                                <ion-col col-6 float-left>
+                                    <!--p>{{task.category}}</p-->
+                                </ion-col>
+                                <ion-col col-6 float-right>
+                                    <p>Due: {{task.dateScheduled}}
+                                        <ion-icon *ngIf="task.recurring" small name="sync"></ion-icon>
+                                    </p>
+                                </ion-col>
+                            </ion-row>
+                        </ion-col>
+                    </ion-row>
                 </ion-item>
                 <ion-item-options side="left">
                     <button ion-button (click)="completeTask(item, task.id)">

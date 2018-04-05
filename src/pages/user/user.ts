@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { Storage } from "@ionic/storage";
 
@@ -18,6 +18,7 @@ export class UserPage {
   constructor(
     public navCtrl: NavController, 
     private userModel: UserModel,
+    private toastCtrl: ToastController,
     public navParams: NavParams
   ) {
   }
@@ -25,5 +26,32 @@ export class UserPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad UserPage');
   }
+
+  mmmToast(msg: string, pos: string) {
+    if (!pos) { pos = "middle"};
+    console.log(msg);
+    let toast = this.toastCtrl.create({
+      message: msg,
+      position: pos,
+      duration: 2000
+    });
+    toast.present();
+  };
+
+  editName() {
+    this.mmmToast("Coming Soon!", "middle")
+  };
+
+  editPassword() {
+    this.mmmToast("Coming Soon!", "middle")
+  };
+
+  editEmail() {
+    this.mmmToast("Coming Soon!", "middle")
+  };
+
+  editBirthday() {
+    this.mmmToast("Coming Soon!", "middle")
+  };
 
 }

@@ -1,3 +1,11 @@
 page-tasks {
-
+    .bold * {
+        font-weight: bold;
+    }
+    .italic * {
+        font-style: italic;
+    }
+    .red * {
+        color: red;
+    }
 }

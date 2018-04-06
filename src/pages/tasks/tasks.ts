@@ -55,6 +55,7 @@ export class TasksPage {
     /*let res: any = this.taskFilter.filterTasks(this.tasks, "id", id);
     console.log(res[0]);*/
     console.log(task.id, task.title);
+    task.dateUpdated = this.dateService.dateToString(this.datetime);
     if (task.completed) {
       task.completed = false;
     } else {

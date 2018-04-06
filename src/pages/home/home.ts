@@ -51,6 +51,7 @@ export class HomePage  {
           temp = this.dateService.nextRecurring(this.user.birthday);
           newtask.dateScheduled = temp;
           newtask.recurring = true;
+          newtask.priority = 1;
           console.log("Birthday Task:", newtask);
         } else {
           newtask.id = 0;
@@ -60,6 +61,7 @@ export class HomePage  {
           newtask.description = this.user.firstname + " " + this.user.lastname + "'s First Task";
           newtask.dateScheduled = newtask.dateCreated;
           newtask.recurring = false;
+          newtask.priority = 1;
           console.log("Sample Task:", newtask);
         }
         console.log("No tasks for user " + this.user.id);

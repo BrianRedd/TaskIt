@@ -67,6 +67,6 @@ export class TaskfilterProvider {
         res.push(tasks[i]);
       }
     }
-    return res[0];
+    return res;
   }
 }

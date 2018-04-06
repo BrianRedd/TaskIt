@@ -37,7 +37,9 @@
     </ion-row>
     <ion-row align-items-center>
         <ion-col col-6>
-            <p>Due: {{task.dateScheduled}}</p>
+            <p>Due: {{task.dateScheduled}}
+                <ion-icon *ngIf="task.recurring" name="sync"></ion-icon>
+            </p>
         </ion-col>
         <ion-col col-6>
             <p>Completed: {{task.completed}}</p>
@@ -45,10 +47,10 @@
     </ion-row>
     <ion-row align-items-center>
         <ion-col col-6>
-            <p>Recurring: {{task.recurring}}</p>
+            <p>Priority: {{priorityStr[task.priority]}}</p>
         </ion-col>
         <ion-col col-6>
-            <p>Priority: {{task.priority}}</p>
+            <p>Category: {{task.category}}</p>
         </ion-col>
     </ion-row>
     <ion-card>

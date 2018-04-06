@@ -5,11 +5,62 @@
         </button>
         <ion-title>
             <ion-icon name="create"></ion-icon>
-            <span>Task Detail</span>
+            <span no-wrap>{{task.title}}</span>
         </ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    {{task | json}}
+    <ion-row align-items-center>
+        <ion-col col-4>
+            <p>Title:</p>
+        </ion-col>
+        <ion-col col-8>
+            <p>{{task.title}}</p>
+        </ion-col>
+    </ion-row>
+    <ion-row align-items-center>
+        <ion-col col-4>
+            <p>Description:</p>
+        </ion-col>
+        <ion-col col-8>
+            <p text-wrap>{{task.description}}</p>
+        </ion-col>
+    </ion-row>
+    <ion-row align-items-center>
+        <ion-col col-6>
+            <p>Created: {{task.dateCreated}}</p>
+        </ion-col>
+        <ion-col col-6>
+            <p>Edited: {{task.dateUpdated}}</p>
+        </ion-col>
+    </ion-row>
+    <ion-row align-items-center>
+        <ion-col col-6>
+            <p>Due: {{task.dateScheduled}}</p>
+        </ion-col>
+        <ion-col col-6>
+            <p>Completed: {{task.completed}}</p>
+        </ion-col>
+    </ion-row>
+    <ion-row align-items-center>
+        <ion-col col-6>
+            <p>Recurring: {{task.recurring}}</p>
+        </ion-col>
+        <ion-col col-6>
+            <p>Priority: {{task.priority}}</p>
+        </ion-col>
+    </ion-row>
+    <ion-card>
+        <ion-card-title>List Items</ion-card-title>
+        <div *ngIf="!task.list || task.list.length > 0">
+            <ion-list *ngFor="let listitem of task.list" #item>
+                <ion-item text-wrap (click)="completeListItem($event, listitem)">
+                    <ion-icon *ngIf="!listitem.completed" name="square-outline"></ion-icon>
+                    <ion-icon *ngIf="listitem.completed" name="checkbox"></ion-icon>
+                    {{listitem.title}}
+                </ion-item>
+            </ion-list>
+        </div>
+    </ion-card>
 </ion-content>

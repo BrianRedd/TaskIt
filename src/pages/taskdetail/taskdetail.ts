@@ -23,4 +23,12 @@ export class TaskDetailPage {
     console.log('ionViewDidLoad TaskDetailPage');
   }
 
+  completeListItem(item, listitem) {
+    if (listitem.completed) {
+      listitem.completed = false;
+    } else {
+      listitem.completed = true;
+    }
+  }
+
 }

@@ -41,7 +41,7 @@ export class NewTaskPage {
     this.newTaskForm = this.formBuilder.group({
       title: ["", [Validators.required]],
       description: "",
-      dateScheduled: "",
+      dateScheduled: ["", [Validators.required]],
       recurring: false,
       priority: 1,
       //category: 0, TO DO
@@ -68,10 +68,22 @@ export class NewTaskPage {
       this.task.recurring = this.newTaskForm.get("recurring").value;
       this.task.priority = this.newTaskForm.get("priority").value;
       this.task.dateCreated = this.todayStr;
-      let tmplist: any = new ListVO();
-      tmplist.id = 0;
-      tmplist.title = this.newTaskForm.get("list").value;
-      this.task.list = tmplist;
+      //List
+      if (this.newTaskForm.get("list").value) {
+        let list: any = [];
+        let tmplist: any = this.newTaskForm.get("list").value;
+        tmplist = tmplist.split("\n");
+        console.log(tmplist);
+        for (var i: number = 0; i < tmplist.length; i++) {
+          list[i] = {
+            "id": i,
+            "title": tmplist[i],
+            "completed": false
+          };
+        }
+        this.task.list = list;
+      }
+      //add new task to tasks array, push to storage
       console.log("New task", this.task)
       this.tasks.push(this.task);
       this.getTaskService.setUserTasks(this.user.id, this.tasks).subscribe(tasks => {

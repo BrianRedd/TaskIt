@@ -11,9 +11,13 @@ export class TaskVO {
     category: number;
     completed: boolean;
     list: ListVO[];
+    flag: string;
+    flagcolor: string;
+    style: string;
 }
 
 export class ListVO {
     id: number;
     title: string;
+    completed: boolean
 }

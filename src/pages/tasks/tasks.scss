@@ -5,7 +5,10 @@ page-tasks {
     .italic * {
         font-style: italic;
     }
-    .red * {
+    .overdue * {
         color: red;
+    }
+    .completed * {
+        text-decoration: line-through;
     }
 }

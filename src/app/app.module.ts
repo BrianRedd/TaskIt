@@ -21,6 +21,7 @@ import { GetuserdataProvider } from '../providers/getuserdata/getuserdata';
 import { GettaskdataProvider } from '../providers/gettaskdata/gettaskdata';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
 import { DateconverterProvider } from '../providers/dateconverter/dateconverter';
+import { TaskfilterProvider } from '../providers/taskfilter/taskfilter';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { DateconverterProvider } from '../providers/dateconverter/dateconverter'
     GetuserdataProvider,
     GettaskdataProvider,
     AuthenticationProvider,
-    DateconverterProvider
+    DateconverterProvider,
+    TaskfilterProvider
   ]
 })
 export class AppModule {}

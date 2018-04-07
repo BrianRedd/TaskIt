@@ -4,7 +4,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UserModel } from "../../models/usermodel";
 import { UserVO } from "../../shared/UserVO";
 
-import { TaskVO } from "../../shared/TaskVO";
+import { TaskVO, ListVO } from "../../shared/TaskVO";
 import { CategoryVO, Categories } from "../../shared/CategoryVO";
 import { GettaskdataProvider } from "../../providers/gettaskdata/gettaskdata";
 import { TaskfilterProvider } from "../../providers/taskfilter/taskfilter";

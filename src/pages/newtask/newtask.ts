@@ -67,7 +67,7 @@ export class NewTaskPage {
       this.task.dateScheduled = this.newTaskForm.get("dateScheduled").value;
       this.task.recurring = this.newTaskForm.get("recurring").value;
       this.task.priority = this.newTaskForm.get("priority").value;
-      this.task.category = this.newTaskForm.get("category").value;
+      this.task.category = parseInt(this.newTaskForm.get("category").value);
       this.task.dateCreated = this.dateService.todaysDateString();
       //List
       if (this.newTaskForm.get("list").value) {

@@ -1,3 +1,11 @@
 page-home {
-
+    .bold * {
+        font-weight: bold;
+    }
+    .italic * {
+        font-style: italic;
+    }
+    .overdue * {
+        color: red;
+    }
 }

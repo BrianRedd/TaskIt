@@ -19,9 +19,6 @@ import { TaskfilterProvider } from "../../providers/taskfilter/taskfilter";
 export class CompletedPage {
  
   user: UserVO = this.userModel.user;
-  Date: any = new Date();
-  date: string;
-  //time: string;
   tasks: TaskVO[];
 
   constructor(

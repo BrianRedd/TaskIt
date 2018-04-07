@@ -14,17 +14,83 @@
     <ion-grid>
         <h1>Welcome {{user.firstname}}</h1>
         <h3 (click)="updateDate()">{{date}}</h3>
-        <ion-card>
+        <ion-card *ngIf="nextdue">
             <ion-card-title>Next Due Task</ion-card-title>
-            <ion-card-content>
-                TO DO: Next due task here
-            </ion-card-content>
+            <ion-list>
+                <ion-item-sliding #item class="{{tasks[nextdue].style}}">
+                    <ion-item (click)="openTaskDetail($event, tasks[nextdue])">
+                        <ion-row>
+                            <ion-col col-10>
+                                <h3 class="t_title">{{tasks[nextdue].title}}</h3>
+                                <p text-wrap class="t_desc">{{tasks[nextdue].description}}</p>
+                            </ion-col>
+                            <ion-col col-2>
+                                <ion-icon name="{{tasks[nextdue].flag}}" large item-end color="{{tasks[nextdue].flagcolor}}"></ion-icon>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col col-12>
+                                <ion-row>
+                                    <ion-col col-6 text-left *ngIf="tasks[nextdue].category">
+                                        <p>Category:
+                                            <ion-icon name="{{categories[tasks[nextdue].category].icon}}"></ion-icon> {{categories[tasks[nextdue].category].name}}
+                                        </p>
+                                    </ion-col>
+                                    <ion-col col-6 text-right>
+                                        <span class="t_date">Due: {{tasks[nextdue].dateScheduled}}
+                                            <ion-icon *ngIf="tasks[nextdue].recurring" small name="sync"></ion-icon>
+                                        </span>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+                    <ion-item-options side="left">
+                        <button ion-button (click)="completeTask(item, tasks[nextdue])">
+                                <ion-icon name="checkmark-circle-outline"></ion-icon>
+                            </button>
+                    </ion-item-options>
+                </ion-item-sliding>
+            </ion-list>
         </ion-card>
-        <ion-card>
+        <ion-card *ngIf="highpriority">
             <ion-card-title>Next High Priority Task</ion-card-title>
-            <ion-card-content>
-                TO DO: Next high priority task here
-            </ion-card-content>
+            <ion-list>
+                <ion-item-sliding #item class="{{tasks[highpriority].style}}">
+                    <ion-item (click)="openTaskDetail($event, tasks[highpriority])">
+                        <ion-row>
+                            <ion-col col-10>
+                                <h3 class="t_title">{{tasks[highpriority].title}}</h3>
+                                <p text-wrap class="t_desc">{{tasks[highpriority].description}}</p>
+                            </ion-col>
+                            <ion-col col-2>
+                                <ion-icon name="{{tasks[highpriority].flag}}" large item-end color="{{tasks[highpriority].flagcolor}}"></ion-icon>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col col-12>
+                                <ion-row>
+                                    <ion-col col-6 text-left *ngIf="tasks[highpriority].category">
+                                        <p>Category:
+                                            <ion-icon name="{{categories[tasks[highpriority].category].icon}}"></ion-icon> {{categories[tasks[highpriority].category].name}}
+                                        </p>
+                                    </ion-col>
+                                    <ion-col col-6 text-right>
+                                        <span class="t_date">Due: {{tasks[highpriority].dateScheduled}}
+                                            <ion-icon *ngIf="tasks[highpriority].recurring" small name="sync"></ion-icon>
+                                        </span>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+                    <ion-item-options side="left">
+                        <button ion-button (click)="completeTask(item, tasks[nextdue])">
+                                <ion-icon name="checkmark-circle-outline"></ion-icon>
+                            </button>
+                    </ion-item-options>
+                </ion-item-sliding>
+            </ion-list>
         </ion-card>
         <button ion-button color="secondary" (click)="openTaskPage()" icon-left>
             <ion-icon name="list-box"></ion-icon>

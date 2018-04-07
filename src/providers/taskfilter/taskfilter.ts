@@ -15,18 +15,29 @@ export class TaskfilterProvider {
     console.log('Filter Tasks via TaskfilterProvider Provider');
   }
 
-  sortTasks(tasks: TaskVO[], method: any) {
-      let temp: TaskVO;
-      for (var i: number = 0; i < tasks.length -1; i++) {
-        for (var ii: number = i; ii < tasks.length; ii++ ) {
+  sortTasks(tasks: TaskVO[], method: any, order: string) {
+    if (!order || (order != "asc" && order != "desc")) {
+      order = "asc";
+    }
+    let temp: TaskVO;
+    for (var i: number = 0; i < tasks.length -1; i++) {
+      for (var ii: number = i; ii < tasks.length; ii++ ) {
+        if (order === "asc") {
           if (tasks[ii][method] < tasks[i][method]) {
+            temp = tasks[ii];
+            tasks[ii] = tasks[i];
+            tasks[i] = temp;
+          }
+        } else {
+          if (tasks[ii][method] > tasks[i][method]) {
             temp = tasks[ii];
             tasks[ii] = tasks[i];
             tasks[i] = temp;
           }
         }
       }
-      return tasks;
+    }
+    return tasks;
   }
 
   styleTasks(tasks: TaskVO[]) {
@@ -64,10 +75,17 @@ export class TaskfilterProvider {
   }
 
   filterTasks(tasks: TaskVO[], parameter: any, value: any) {
+    //use value="-1" for false
     let res: TaskVO[] = [];
     for (var i: number = 0; i < tasks.length; i++) {
-      if (tasks[i][parameter] === value) {
-        res.push(tasks[i]);
+      if (value === "-1") {
+        if (!tasks[i][parameter]) {
+          res.push(tasks[i])
+        }        
+      } else {
+        if (tasks[i][parameter] === value) {
+          res.push(tasks[i]);
+        }
       }
     }
     return res;

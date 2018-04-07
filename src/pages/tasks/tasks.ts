@@ -6,7 +6,8 @@ import { NewTaskPage } from "../newtask/newtask";
 import { UserModel } from "../../models/usermodel";
 import { UserVO } from "../../shared/UserVO";
 
-import { TaskVO, ListVO } from "../../shared/TaskVO";
+import { TaskVO } from "../../shared/TaskVO";
+import { CategoryVO, Categories } from "../../shared/CategoryVO";
 import { GettaskdataProvider } from "../../providers/gettaskdata/gettaskdata";
 import { DateconverterProvider } from "../../providers/dateconverter/dateconverter";
 import { TaskfilterProvider } from "../../providers/taskfilter/taskfilter";
@@ -19,10 +20,10 @@ import { TaskfilterProvider } from "../../providers/taskfilter/taskfilter";
 export class TasksPage {
  
   user: UserVO = this.userModel.user;
-  Date: any = new Date();
-  date: string;
-  //time: string;
+  task: TaskVO;
   tasks: TaskVO[];
+  priorityStr: any = ["Low", "Normal", "High"];
+  categories = Categories;
 
   constructor(
     private userModel: UserModel,
@@ -32,8 +33,13 @@ export class TasksPage {
     public navCtrl: NavController
   ) {
     getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
-      this.tasks = taskFilter.sortTasks(tasks, "dateScheduled");
+      this.tasks = taskFilter.sortTasks(tasks, "dateScheduled", "asc");
       this.tasks = taskFilter.styleTasks(tasks);
+      for (var i: number = 0; i < tasks.length; i++) {
+        if (this.tasks[i].category === NaN || !this.tasks[i].category) {
+          this.tasks[i].category = 5;
+        }
+      }
     });
   }
 
@@ -52,10 +58,8 @@ export class TasksPage {
   }
 
   completeTask(item: ItemSliding, task: any) {
-    /*let res: any = this.taskFilter.filterTasks(this.tasks, "id", id);
-    console.log(res[0]);*/
-    console.log(task.id, task.title);
-    task.dateUpdated = this.dateService.dateToString(this.Date);
+    //console.log(task.id, task.title);
+    task.dateUpdated = this.dateService.todaysDateString();
     if (task.completed) {
       task.completed = false;
     } else {

@@ -27,8 +27,10 @@
                     <ion-row>
                         <ion-col col-12>
                             <ion-row>
-                                <ion-col col-6 text-left>
-                                    <!--p>{{task.category}}</p-->
+                                <ion-col col-6 text-left *ngIf="task.category">
+                                    <p>Category:
+                                        <ion-icon name="{{categories[task.category].icon}}"></ion-icon> {{categories[task.category].name}}
+                                    </p>
                                 </ion-col>
                                 <ion-col col-6 text-right>
                                     <span class="t_date">Due: {{task.dateScheduled}}
@@ -47,16 +49,8 @@
             </ion-item-sliding>
         </ion-list>
     </div>
-    <div [hidden]="tasks">
-        <ion-spinner></ion-spinner>
-        <h4>Loading Tasks . . . Please Wait</h4>
-    </div>
     <button ion-button color="success" (click)="openNewTaskPage()" icon-left float-right>
         <ion-icon name="add-circle"></ion-icon>
         <span>New Task</span>
     </button>
-    <!--div *ngIf="errMess">
-        <h2>Error</h2>
-        <h4>{{errMess}}</h4>
-    </div-->
 </ion-content>

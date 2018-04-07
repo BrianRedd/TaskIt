@@ -30,7 +30,7 @@ export class CompletedPage {
   ) {
     getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
       this.tasks = taskFilter.filterTasks(tasks, "completed", true);
-      this.tasks = taskFilter.sortTasks(this.tasks, "dateScheduled");
+      this.tasks = taskFilter.sortTasks(this.tasks, "dateScheduled", "asc");
       this.tasks = taskFilter.styleTasks(this.tasks);
     });
   }

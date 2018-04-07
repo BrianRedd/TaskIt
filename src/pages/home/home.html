@@ -14,8 +14,8 @@
     <ion-grid>
         <h1>Welcome {{user.firstname}}</h1>
         <h3 (click)="updateDate()">{{date}}</h3>
-        <ion-card *ngIf="nextdue">
-            <ion-card-title>Next Due Task</ion-card-title>
+        <ion-card *ngIf="nextdue !== null">
+            <ion-card-title>Next Pending Task</ion-card-title>
             <ion-list>
                 <ion-item-sliding #item class="{{tasks[nextdue].style}}">
                     <ion-item (click)="openTaskDetail($event, tasks[nextdue])">
@@ -53,7 +53,7 @@
                 </ion-item-sliding>
             </ion-list>
         </ion-card>
-        <ion-card *ngIf="highpriority">
+        <ion-card *ngIf="highpriority !== null">
             <ion-card-title>Next High Priority Task</ion-card-title>
             <ion-list>
                 <ion-item-sliding #item class="{{tasks[highpriority].style}}">

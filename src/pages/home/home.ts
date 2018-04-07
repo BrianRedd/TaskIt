@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ItemSliding } from 'ionic-angular';
+import { IonicPage, NavController, ItemSliding, ToastController } from 'ionic-angular';
 import { LoginPage } from "../login/login";
 import { TasksPage } from "../tasks/tasks";
 import { TaskDetailPage } from '../taskdetail/taskdetail';
@@ -25,21 +25,27 @@ export class HomePage  {
   priorityStr: any = ["Low", "Normal", "High"];
   categories = Categories;
   nextdue: number = null;
+  nextdue_msg: string;
   highpriority: number = null;
+  highpriority_msg: string;
 
   constructor(
     private userModel: UserModel,
     private getTaskService: GettaskdataProvider,
     private dateService: DateconverterProvider,
     private taskFilter: TaskfilterProvider,
+    private toastCtrl: ToastController,
     public navCtrl: NavController
   ) {
-    this.updateDate();
+    this.date = this.dateService.todaysDateString();
     if (!userModel.validateUser()) {
       this.navCtrl.setRoot(LoginPage);
     }
+    if (this.user.image === "Later") { //remove filler value for now
+      this.user.image = null;
+    }
     getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
-      //tasks = taskFilter.sortTasks(tasks, "dateScheduled", "asc");
+      tasks = taskFilter.sortTasks(tasks, "id", "asc");
       //tasks = taskFilter.styleTasks(tasks);
       if (!tasks) {
         //console.log("No tasks for user " + this.user.id);
@@ -83,6 +89,7 @@ export class HomePage  {
 
   updateDate() {
     this.date = this.dateService.todaysDateString();
+    this.nextDueTasks();
   };
 
   openTaskPage() {
@@ -96,25 +103,58 @@ export class HomePage  {
   }
 
   nextDueTasks() {
-    let next: any = [];
+    this.nextdue_msg = "";
+    this.highpriority_msg = "";
+    let next: TaskVO[] = [];
+    let high: TaskVO[] = [];
     next = this.taskFilter.filterTasks(this.tasks, "completed", "-1");
     next = this.taskFilter.sortTasks(next, "dateScheduled", "asc");
     next = this.taskFilter.styleTasks(next);
-    this.nextdue = next[0].id;
-    next = this.taskFilter.filterTasks(next, "priority", 2);
-    this.highpriority = next[0].id;
+    if (!next || next.length === 0) {
+      this.nextdue_msg = "No Pending Tasks Due";
+      this.nextdue = null;
+    } else {
+      this.nextdue = next[0].id;
+      high = this.taskFilter.filterTasks(next, "priority", 2);
+      console.log("High Priority tasks", high);
+      if (!high || high.length === 0) {
+        this.highpriority_msg = "No High Priority Tasks Due";
+        console.log(this.highpriority_msg);
+        this.highpriority = null;
+      } else {
+        this.highpriority = high[0].id;
+      }
+      if ((this.highpriority === this.nextdue) && high.length > 1) {
+        this.highpriority = high[1].id;
+      }
+    }
   }
 
   completeTask(item: ItemSliding, task: any) {
     console.log(task.id, task.title);
-    /*task.dateUpdated = this.dateService.todaysDateString();
+    task.dateUpdated = this.dateService.todaysDateString();
     if (task.completed) {
       task.completed = false;
+      this.mmmToast("Task " + task.title + " restored to active!", "middle");
     } else {
       task.completed = true;
+      this.mmmToast("Task " + task.title + " completed!", "middle");
     }
     this.tasks = this.taskFilter.styleTasks(this.tasks);
-    this.getTaskService.setUserTasks(this.user.id, this.tasks);*/
+    this.getTaskService.setUserTasks(this.user.id, this.tasks);
+    item.close();
+    this.nextDueTasks();
   }
+
+  mmmToast(msg: string, pos: string) {
+    if (!pos) { pos = "middle"};
+    console.log(msg);
+    let toast = this.toastCtrl.create({
+      message: msg,
+      position: pos,
+      duration: 2000
+    });
+    toast.present();
+  };
   
 }

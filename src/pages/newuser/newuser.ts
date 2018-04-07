@@ -15,16 +15,7 @@ export class NewUserPage {
 
   newuserForm: FormGroup;
   users: UserVO[];
-  user: UserVO = {
-    id: null,
-    firstname: "",
-    lastname: "",
-    username: "",
-    password: "",
-    email: "",
-    birthday: "",
-    image: "Later"
-  };
+  user: UserVO = new UserVO;
   newid: number;
   newuser: boolean = false;
 
@@ -113,7 +104,7 @@ export class NewUserPage {
       this.user.password = this.newuserForm.get("password").value;
       this.user.email = this.newuserForm.get("email").value;      
       this.user.birthday = this.newuserForm.get("birthday").value;
-      //TO DO: this.user.image = "assets/imgs/generic_user.png";
+      this.user.image = "assets/imgs/generic_user.png";
       //console.log("New User: user after form:", this.user);
       this.users.push(this.user);
       this.storage.set("CTIuser", this.user).then(() => {

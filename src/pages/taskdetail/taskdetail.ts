@@ -32,7 +32,7 @@ export class TaskDetailPage {
     public navParams: NavParams
   ) {
     getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
-      this.tasks = taskFilter.sortTasks(tasks, "id");
+      this.tasks = taskFilter.sortTasks(tasks, "id", "asc");
       if (!this.task.category) {
         console.log("Category for task #" + this.task.id + " is undefined");
         this.task.category = 5;

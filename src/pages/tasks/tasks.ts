@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ItemSliding } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ItemSliding, ToastController } from 'ionic-angular';
 import { TaskDetailPage } from '../taskdetail/taskdetail';
 import { NewTaskPage } from "../newtask/newtask";
 
@@ -30,6 +30,7 @@ export class TasksPage {
     private getTaskService: GettaskdataProvider,
     private dateService: DateconverterProvider,
     private taskFilter: TaskfilterProvider,
+    private toastCtrl: ToastController,
     public navCtrl: NavController
   ) {
     getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
@@ -62,11 +63,25 @@ export class TasksPage {
     task.dateUpdated = this.dateService.todaysDateString();
     if (task.completed) {
       task.completed = false;
+      this.mmmToast("Task " + task.title + " restored to active!", "middle");
     } else {
       task.completed = true;
+      this.mmmToast("Task " + task.title + " completed!", "middle");
     }
     this.tasks = this.taskFilter.styleTasks(this.tasks);
     this.getTaskService.setUserTasks(this.user.id, this.tasks);
+    item.close();
   }
+
+  mmmToast(msg: string, pos: string) {
+    if (!pos) { pos = "middle"};
+    console.log(msg);
+    let toast = this.toastCtrl.create({
+      message: msg,
+      position: pos,
+      duration: 2000
+    });
+    toast.present();
+  };
 
 }

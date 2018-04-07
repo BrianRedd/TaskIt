@@ -30,11 +30,21 @@ export class TaskfilterProvider {
   }
 
   styleTasks(tasks: TaskVO[]) {
-    let datetime: any = new Date();
+    let newDate: any = new Date(); 
+    let date = this.dateService.dateToString(newDate);
     for (var i: number = 0; i < tasks.length; i++) {
       tasks[i].flag = "";
       tasks[i].flagcolor = "";
       tasks[i].style = "";
+      //console.log("taskfilter > styleTasks: [" + i + "] dateSchedule", tasks[i].dateScheduled);
+      if (tasks[i].dateScheduled === date) {
+        tasks[i].flag = "warning";
+        tasks[i].style += " due";
+      } else if (tasks[i].dateScheduled < date) {
+        tasks[i].flag = "warning";
+        tasks[i].flagcolor = "red";
+        tasks[i].style += " overdue";
+      }
       if (tasks[i].priority === 0) {
         tasks[i].flag = "trending-down";
         tasks[i].flagcolor = "archive";
@@ -48,13 +58,6 @@ export class TaskfilterProvider {
       }
       if (tasks[i].completed) {
         tasks[i].style += " completed";
-      }
-      if (this.dateService.stringToDate(tasks[i].dateScheduled) < datetime) {
-        if (!tasks[i].flag) {
-          tasks[i].flag = "warning";
-        }
-        tasks[i].flagcolor = "red";
-        tasks[i].style += " overdue";
       }
     }
     return tasks;

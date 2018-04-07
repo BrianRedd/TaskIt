@@ -23,6 +23,8 @@ import { AuthenticationProvider } from '../providers/authentication/authenticati
 import { DateconverterProvider } from '../providers/dateconverter/dateconverter';
 import { TaskfilterProvider } from '../providers/taskfilter/taskfilter';
 
+import { CategoryVO } from "../shared/CategoryVO";
+
 @NgModule({
   declarations: [
     MyApp,

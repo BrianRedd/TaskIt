@@ -19,9 +19,9 @@ import { TaskfilterProvider } from "../../providers/taskfilter/taskfilter";
 export class TasksPage {
  
   user: UserVO = this.userModel.user;
-  datetime: any = new Date();
+  Date: any = new Date();
   date: string;
-  time: string;
+  //time: string;
   tasks: TaskVO[];
 
   constructor(
@@ -55,14 +55,14 @@ export class TasksPage {
     /*let res: any = this.taskFilter.filterTasks(this.tasks, "id", id);
     console.log(res[0]);*/
     console.log(task.id, task.title);
-    task.dateUpdated = this.dateService.dateToString(this.datetime);
+    task.dateUpdated = this.dateService.dateToString(this.Date);
     if (task.completed) {
       task.completed = false;
     } else {
       task.completed = true;
     }
     this.tasks = this.taskFilter.styleTasks(this.tasks);
-    this.getTaskService.setUserTasks(this.user.id, this.tasks)
+    this.getTaskService.setUserTasks(this.user.id, this.tasks);
   }
 
 }

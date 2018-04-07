@@ -6,7 +6,7 @@ import { TasksPage } from "../tasks/tasks";
 import { UserModel } from "../../models/usermodel";
 import { UserVO } from "../../shared/UserVO";
 
-import { TaskVO, ListVO } from "../../shared/TaskVO";
+import { TaskVO } from "../../shared/TaskVO";
 import { GettaskdataProvider } from "../../providers/gettaskdata/gettaskdata";
 import { DateconverterProvider } from "../../providers/dateconverter/dateconverter";
 
@@ -17,9 +17,9 @@ import { DateconverterProvider } from "../../providers/dateconverter/dateconvert
 export class HomePage  {
 
   user: UserVO = this.userModel.user;
-  datetime: any = new Date();
+  Date: any = new Date();
   date: string;
-  time: string;
+  //time: string;
   tasks: TaskVO[];
   nextdue: number = null;
   highpriority: number = null;
@@ -44,7 +44,7 @@ export class HomePage  {
         let newtask: TaskVO = new TaskVO();
         if (this.user.birthday) {
           newtask.id = 0;
-          let temp: any = this.dateService.dateToString(this.datetime);
+          let temp: any = this.dateService.dateToString(this.Date);
           newtask.dateCreated = temp;
           newtask.title = this.user.firstname + "'s Birthday";
           newtask.description = this.user.firstname + " " + this.user.lastname + "'s Birthday";
@@ -52,16 +52,18 @@ export class HomePage  {
           newtask.dateScheduled = temp;
           newtask.recurring = true;
           newtask.priority = 1;
+          newtask.category = 4;
           console.log("Birthday Task:", newtask);
         } else {
           newtask.id = 0;
-          let temp: any = this.dateService.dateToString(this.datetime);
+          let temp: any = this.dateService.dateToString(this.Date);
           newtask.dateCreated = temp;
           newtask.title = this.user.firstname + "'s First Task";
           newtask.description = this.user.firstname + " " + this.user.lastname + "'s First Task";
           newtask.dateScheduled = newtask.dateCreated;
           newtask.recurring = false;
           newtask.priority = 1;
+          newtask.category = 5;
           console.log("Sample Task:", newtask);
         }
         console.log("No tasks for user " + this.user.id);
@@ -78,9 +80,9 @@ export class HomePage  {
   }
 
   updateDateTime() {
-    this.datetime = new Date();
-    this.date = this.datetime.toDateString();
-    this.time = this.datetime.toLocaleTimeString();
+    this.Date = new Date();
+    this.date = this.Date.toDateString();
+    //this.time = this.datetime.toLocaleTimeString();
   };
 
   openTaskPage() {

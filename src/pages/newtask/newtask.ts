@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { Storage } from "@ionic/storage";
@@ -7,7 +7,8 @@ import { TasksPage } from "../tasks/tasks";
 import { UserModel } from "../../models/usermodel";
 import { UserVO } from "../../shared/UserVO";
 
-import { TaskVO, ListVO } from "../../shared/TaskVO";
+import { TaskVO } from "../../shared/TaskVO";
+import { CategoryVO, Categories } from "../../shared/CategoryVO";
 import { GettaskdataProvider } from "../../providers/gettaskdata/gettaskdata";
 import { DateconverterProvider } from "../../providers/dateconverter/dateconverter";
 
@@ -22,8 +23,7 @@ export class NewTaskPage {
   newTaskForm: FormGroup;
   tasks: TaskVO[];
   task: TaskVO;
-  today: any = new Date();
-  todayStr: string;
+  categories = Categories;
 
   constructor(
     public navCtrl: NavController,
@@ -34,7 +34,7 @@ export class NewTaskPage {
     private dateService: DateconverterProvider,
     public navParams: NavParams
   ) {
-    this.todayStr = dateService.dateToString(this.today);
+    console.log(this.categories);
     getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
       this.tasks = tasks;
     });
@@ -44,7 +44,7 @@ export class NewTaskPage {
       dateScheduled: ["", [Validators.required]],
       recurring: false,
       priority: 1,
-      //category: 0, TO DO
+      category: 0,
       list: ""
     });
   }
@@ -67,7 +67,8 @@ export class NewTaskPage {
       this.task.dateScheduled = this.newTaskForm.get("dateScheduled").value;
       this.task.recurring = this.newTaskForm.get("recurring").value;
       this.task.priority = this.newTaskForm.get("priority").value;
-      this.task.dateCreated = this.todayStr;
+      this.task.category = this.newTaskForm.get("category").value;
+      this.task.dateCreated = this.dateService.todaysDateString();
       //List
       if (this.newTaskForm.get("list").value) {
         let list: any = [];

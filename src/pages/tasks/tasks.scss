@@ -9,6 +9,6 @@ page-tasks {
         color: red;
     }
     .completed * {
-        text-decoration: line-through;
+        display: none;
     }
 }

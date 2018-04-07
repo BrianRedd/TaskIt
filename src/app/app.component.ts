@@ -34,9 +34,9 @@ export class MyApp {
     this.pages = [
       { title: 'Home', icon: "home", component: HomePage },
       { title: 'Tasks', icon: "list-box", component: TasksPage },
-      { title: 'New Task', icon: "create", component: NewTaskPage },
+      { title: 'New Task', icon: "add-circle", component: NewTaskPage },
       { title: 'Completed Tasks', icon: "archive", component: CompletedPage },
-      { title: 'User', icon: "contact", component: UserPage },
+      { title: 'User Details', icon: "contact", component: UserPage },
       { title: 'About', icon: "information-circle", component: AboutPage }
     ];
   }

@@ -12,8 +12,17 @@ export class DateconverterProvider {
 
   //standard date string format: YYYY-MM-DD
 
+  Date: any = new Date();
+  date: string;
+
   stringToDate(str: any) {
     return new Date(str);
+  }
+
+  todaysDateString() {
+      this.Date = new Date();
+      this.date = this.dateToString(this.Date);
+      return this.date;
   }
 
   dateToString(date: any) {

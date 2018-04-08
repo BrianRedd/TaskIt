@@ -3,7 +3,7 @@ import { IonicPage, NavController, ItemSliding, ToastController } from 'ionic-an
 import { LoginPage } from "../login/login";
 import { TasksPage } from "../tasks/tasks";
 import { TaskDetailPage } from '../taskdetail/taskdetail';
-import { UserPage } from "../user/user"; //**TEMPORARY**
+//import { UserPage } from "../user/user"; //**TEMPORARY**
 
 import { UserModel } from "../../models/usermodel";
 import { UserVO } from "../../shared/UserVO";
@@ -44,7 +44,7 @@ export class HomePage  {
       this.navCtrl.setRoot(LoginPage);
     }
     if (this.user.image === "Later") { //remove filler value for now **TEMPORARY**
-      this.user.image = null;
+      this.user.image = "assets/imgs/generic_user.png";
     }
     this.getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
       tasks = this.taskFilter.sortTasks(tasks, "id", "asc");
@@ -109,9 +109,9 @@ export class HomePage  {
     this.navCtrl.push(TasksPage);
   }
 
-  openUserPage() { //**TEMPORARY**
+  /*openUserPage() { //**TEMPORARY**
     this.navCtrl.push(UserPage);
-  }
+  }*/
 
   openTaskDetail(event, task) {
     this.navCtrl.push(TaskDetailPage, {

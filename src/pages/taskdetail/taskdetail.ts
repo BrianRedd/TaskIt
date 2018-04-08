@@ -63,6 +63,10 @@ export class TaskDetailPage {
     this.getTaskService.setUserTasks(this.user.id, this.tasks);
   }
 
+  addListItem() {
+    
+  }
+
   completeTask() {
     //console.log(task.id, task.title);
     this.tasks = this.taskFilter.sortTasks(this.tasks, "id", "asc");

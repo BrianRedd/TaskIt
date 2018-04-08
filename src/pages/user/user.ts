@@ -5,6 +5,7 @@ import { Storage } from "@ionic/storage";
 
 import { UserModel } from "../../models/usermodel";
 import { UserVO } from "../../shared/UserVO";
+import { GetuserdataProvider } from "../../providers/getuserdata/getuserdata";
 
 @IonicPage()
 @Component({
@@ -13,6 +14,7 @@ import { UserVO } from "../../shared/UserVO";
 })
 export class UserPage {
 
+  users: UserVO[];
   user: UserVO = this.userModel.user;
   editUserForm: FormGroup;
   edit: any = [{
@@ -27,15 +29,20 @@ export class UserPage {
     private userModel: UserModel,
     private toastCtrl: ToastController,
     private formBuilder: FormBuilder,
+    private storage: Storage,
+    private getUserService: GetuserdataProvider,
     public navParams: NavParams
   ) {
+    getUserService.getTIUsers().subscribe((users) => {
+        this.users = users;
+    });
     this.editUserForm = this.formBuilder.group({
       firstname: [this.user.firstname, [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
       lastname: [this.user.lastname, [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
-      password: ["", [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
-      confirm: ["", [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
+      password: [this.user.password, [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
+      confirm: [this.user.password, [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
       email: [this.user.email, [Validators.email]],
-      birthday: ""
+      birthday: this.user.birthday
     });
   }
 
@@ -56,16 +63,27 @@ export class UserPage {
 
   editName() {
     //this.mmmToast("Coming Soon!", "middle")
+    this.editUserForm.patchValue({
+      firstname: "",
+      lastname: ""
+    });
     this.edit.name = true;
   };
 
   editPassword() {
     //this.mmmToast("Coming Soon!", "middle")
+    this.editUserForm.patchValue({
+      password: "",
+      confirm: ""
+    });
     this.edit.password = true;
   };
 
   editEmail() {
     //this.mmmToast("Coming Soon!", "middle")
+    this.editUserForm.patchValue({
+      email: ""
+    });
     this.edit.email = true;
   };
 
@@ -74,7 +92,26 @@ export class UserPage {
     this.edit.birthday = true;
   };
 
-  onSubmit() {};
+  onSubmit() {
+    this.user.firstname = this.editUserForm.get("firstname").value;
+    this.user.lastname = this.editUserForm.get("lastname").value;
+    let password: string = this.editUserForm.get("password").value;
+    let confirm: string = this.editUserForm.get("confirm").value;
+    this.user.email = this.editUserForm.get("email").value;
+    this.user.birthday = this.editUserForm.get("birthday").value;
+    if (password != confirm) {
+      this.mmmToast("Password and Confirmation do not match", "middle");
+    } else {
+      this.user.password = password;
+    }
+    this.users[this.user.id] = this.user;
+    this.storage.set("CTIuser", this.user).then(() => {
+      this.storage.set("TIusers", this.users).then(() => {
+        this.mmmToast("User " + this.user.username + " updated.", "top");
+        this.onCancel();
+      });
+    });
+  };
 
   onCancel() {
     this.edit.name = false;

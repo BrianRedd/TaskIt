@@ -26,7 +26,7 @@
             </ion-col>
             <ion-col col>
                 <p *ngIf="!edit.password">*****</p>
-                <p *ngIf="edit.password">This is where we edit!</p>
+                <ion-input *ngIf="edit.password" type="password" formControlName="password" placeholder="password"></ion-input>
             </ion-col>
             <ion-col col-1>
                 <button ion-button clear (click)="editPassword()" *ngIf="!edit.password">
@@ -35,6 +35,14 @@
                 <button ion-button clear (click)="onCancel()" *ngIf="edit.password">
                     <ion-icon name="close"></ion-icon>
                 </button>
+            </ion-col>
+        </ion-row>
+        <ion-row align-items-center *ngIf="edit.password">
+            <ion-col col-4>
+                <p>Confirm:</p>
+            </ion-col>
+            <ion-col col-7>
+                <ion-input type="password" formControlName="confirm" placeholder="confirm"></ion-input>
             </ion-col>
         </ion-row>
         <ion-row class="userimage" *ngIf="user.image">
@@ -47,8 +55,11 @@
                 <p>Name:</p>
             </ion-col>
             <ion-col col>
-                <p *ngIf="!edit.name">{{user.firstname}} {{user.lastname}}</p>
-                <p *ngIf="edit.name">This is where we edit!</p>
+                <ion-row>
+                    <p *ngIf="!edit.name">{{user.firstname}} {{user.lastname}}</p>
+                    <ion-input *ngIf="edit.name" type="text" formControlName="firstname" placeholder="First"></ion-input>
+                    <ion-input *ngIf="edit.name" type="text" formControlName="lastname" placeholder="Last"></ion-input>
+                </ion-row>
             </ion-col>
             <ion-col col-1>
                 <button ion-button clear (click)="editName()" *ngIf="!edit.name">
@@ -65,7 +76,7 @@
             </ion-col>
             <ion-col col>
                 <p *ngIf="!edit.email">{{user.email}}</p>
-                <p *ngIf="edit.email">This is where we edit!</p>
+                <ion-input *ngIf="edit.email" type="text" formControlName="email" placeholder="email address"></ion-input>
             </ion-col>
             <ion-col col-1>
                 <button ion-button clear (click)="editEmail()" *ngIf="!edit.email">
@@ -82,7 +93,7 @@
             </ion-col>
             <ion-col col>
                 <p *ngIf="!edit.birthday">{{user.birthday}}</p>
-                <p *ngIf="edit.birthday">This is where we edit!</p>
+                <ion-datetime *ngIf="edit.birthday" displayFormat="MMM DD, YYYY" pickerFormat="MMM DD, YYYY" formControlName="birthday"></ion-datetime>
             </ion-col>
             <ion-col col-1>
                 <button ion-button clear (click)="editBirthday()" *ngIf="!edit.birthday">
@@ -95,7 +106,7 @@
         </ion-row>
     </form>
     <div *ngIf="edit.password || edit.name || edit.email || edit.birthday">
-        <button ion-button float-left (click)="onSubmit()" icon-left>
+        <button ion-button float-left (click)="onSubmit()" [disabled]="!editUserForm.valid" icon-left>
             <ion-icon name="checkmark-circle"></ion-icon>
             <span>Submit</span>
         </button>

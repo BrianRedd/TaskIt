@@ -28,15 +28,19 @@ export class CompletedPage {
     private taskFilter: TaskfilterProvider,
     public navCtrl: NavController
   ) {
-    getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
-      this.tasks = taskFilter.filterTasks(tasks, "completed", true);
-      this.tasks = taskFilter.sortTasks(this.tasks, "dateScheduled", "asc");
-      this.tasks = taskFilter.styleTasks(this.tasks);
-    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CompletedPage');
+  }
+
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter CompletedPage');
+    this.getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
+      this.tasks = this.taskFilter.filterTasks(tasks, "completed", true);
+      this.tasks = this.taskFilter.sortTasks(this.tasks, "dateScheduled", "asc");
+      this.tasks = this.taskFilter.styleTasks(this.tasks);
+    });
   }
 
   openTaskDetail(event, task) {

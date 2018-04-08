@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ItemSliding, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ItemSliding, ToastController, reorderArray } from 'ionic-angular';
 import { TaskDetailPage } from '../taskdetail/taskdetail';
 import { NewTaskPage } from "../newtask/newtask";
 
@@ -24,6 +24,7 @@ export class TasksPage {
   tasks: TaskVO[];
   priorityStr: any = ["Low", "Normal", "High"];
   categories = Categories;
+  reorder: boolean = false;
 
   constructor(
     private userModel: UserModel,
@@ -36,7 +37,7 @@ export class TasksPage {
     getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
       this.tasks = taskFilter.sortTasks(tasks, "dateScheduled", "asc");
       this.tasks = taskFilter.styleTasks(tasks);
-      for (var i: number = 0; i < tasks.length; i++) {
+      for (var i: number = 0; i < tasks.length; i++) {//***TEMPORARY */
         if (this.tasks[i].category === NaN || !this.tasks[i].category) {
           this.tasks[i].category = 5;
         }
@@ -83,5 +84,13 @@ export class TasksPage {
     });
     toast.present();
   };
+
+  toggleReorder() {
+    this.reorder = !this.reorder;
+  }
+  
+  reorderTasks(indexes: any) {
+    this.tasks = reorderArray(this.tasks, indexes);
+  }
 
 }

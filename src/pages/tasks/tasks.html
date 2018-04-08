@@ -1,18 +1,24 @@
 <ion-header>
     <ion-navbar color="secondary">
-        <button ion-button menuToggle>
+        <button ion-button menuToggle start>
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>
             <ion-icon name="list-box"></ion-icon>
             <span>Tasks</span>
         </ion-title>
+        <!--ion-buttons end>
+            <button ion-button clear (click)="toggleReorder()">
+                <ion-icon name="reorder"></ion-icon>
+            </button>
+        </ion-buttons-->
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
     <div *ngIf="tasks">
         <ion-list>
+            <!--[reorder]="reorder" (ionItemReorder)="reorderTasks($event)"-->
             <ion-item-sliding *ngFor="let task of tasks" #item class="{{task.style}}">
                 <ion-item (click)="openTaskDetail($event, task)">
                     <ion-row>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, reorderArray, AlertController } from 'ionic-angular';
 
 import { UserModel } from "../../models/usermodel";
 import { UserVO } from "../../shared/UserVO";
@@ -22,6 +22,7 @@ export class TaskDetailPage {
   tasks: TaskVO[];
   priorityStr: any = ["Low", "Normal", "High"];
   categories = Categories;
+  reorder: boolean = false;
 
   constructor(
     private userModel: UserModel,
@@ -30,6 +31,7 @@ export class TaskDetailPage {
     private taskFilter: TaskfilterProvider,
     private dateService: DateconverterProvider,
     private toastCtrl: ToastController,
+    private alertCtrl: AlertController,
     public navParams: NavParams
   ) {
     getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
@@ -52,19 +54,82 @@ export class TaskDetailPage {
     console.log('ionViewDidLoad TaskDetailPage');
   }
 
+  updateTasks() {
+    this.tasks[this.task.id] = this.task;
+    this.tasks = this.taskFilter.styleTasks(this.tasks);
+    this.tasks[this.task.id].dateUpdated = this.dateService.todaysDateString();
+    this.getTaskService.setUserTasks(this.user.id, this.tasks);
+  }
+
+  addListItem() {
+    let alert = this.alertCtrl.create({
+      title: "Add List Item",
+      inputs: [
+        {
+          name: "item",
+          placeholder: "List Item"
+        }
+      ], 
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+          handler: (data) => {
+            console.log("Action canceled")
+          }
+        },
+        {
+          text: "Add",
+          handler: (data) => {
+            console.log(data.item + " added to list");
+            let curlist: any = this.task.list;
+            if (!curlist || curlist.length === 0) {
+              let newitem: any = [{
+                id: 0,
+                title: data.item,
+                completed: false
+              }];
+              this.task.list = newitem;
+            } else {
+              let newitem: any = {
+                id: curlist.length,
+                title: data.item,
+                completed: false
+              };
+              this.task.list.push(newitem);
+            }
+            this.updateTasks();
+          }
+        }
+      ]       
+    });
+    alert.present();
+  }
+
+  toggleReorder() {
+    this.reorder = !this.reorder;
+  }
+  
+  reorderListItems(indexes: any) {
+    this.task.list = reorderArray(this.task.list, indexes);
+    this.updateTasks();
+  }
+
   completeListItem(item, listitem) {
     if (listitem.completed) {
       listitem.completed = false;
     } else {
       listitem.completed = true;
     }
-    this.tasks[this.task.id].list[listitem.id].completed = listitem.completed;
-    this.tasks[this.task.id].dateUpdated = this.dateService.todaysDateString();
-    this.getTaskService.setUserTasks(this.user.id, this.tasks);
-  }
-
-  addListItem() {
-    
+    let index: number;
+    let curlist: any = this.tasks[this.task.id].list;
+    for (var i: number = 0; i < curlist.length; i++) {
+      if (curlist[i].id === listitem.id) {
+        index = i;
+      }
+    }
+    this.tasks[this.task.id].list[index].completed = listitem.completed;
+    this.updateTasks();
   }
 
   completeTask() {
@@ -72,15 +137,37 @@ export class TaskDetailPage {
     this.tasks = this.taskFilter.sortTasks(this.tasks, "id", "asc");
     this.task.dateUpdated = this.dateService.todaysDateString();
     if (this.task.completed) {
-      this.task.completed = false;
-      this.mmmToast("Task " + this.task.title + " restored to active!", "middle");
+      this.restoreTask();
     } else {
       this.task.completed = true;
       this.mmmToast("Task " + this.task.title + " completed!", "middle");
     }
-    this.tasks[this.task.id] = this.task;
-    this.tasks = this.taskFilter.styleTasks(this.tasks);
-    this.getTaskService.setUserTasks(this.user.id, this.tasks);
+    this.updateTasks();
+  }
+
+  restoreTask() {
+    let alert = this.alertCtrl.create({
+      title: "Un-Complete Task?",
+      message: "Are you sure you want to return &quot;" +  this.task.title + "&quot; to non-completed state?",
+      buttons: [
+        {
+          text: "No",
+          role: "cancel",
+          handler: () => {
+            console.log("Action canceled!");
+          }
+        },
+        {
+          text: "Yes",
+          handler: () => {
+            this.task.completed = false;
+            this.mmmToast("Task " + this.task.title + " restored to active!", "middle");
+            this.updateTasks();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   mmmToast(msg: string, pos: string) {

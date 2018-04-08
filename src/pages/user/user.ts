@@ -14,13 +14,29 @@ import { UserVO } from "../../shared/UserVO";
 export class UserPage {
 
   user: UserVO = this.userModel.user;
+  editUserForm: FormGroup;
+  edit: any = [{
+    "name": false,
+    "password": false,
+    "email": false,
+    "birthday": false
+  }];
 
   constructor(
     public navCtrl: NavController, 
     private userModel: UserModel,
     private toastCtrl: ToastController,
+    private formBuilder: FormBuilder,
     public navParams: NavParams
   ) {
+    this.editUserForm = this.formBuilder.group({
+      firstname: [this.user.firstname, [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+      lastname: [this.user.lastname, [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+      password: ["", [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
+      confirm: ["", [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
+      email: [this.user.email, [Validators.email]],
+      birthday: ""
+    });
   }
 
   ionViewDidLoad() {
@@ -39,19 +55,32 @@ export class UserPage {
   };
 
   editName() {
-    this.mmmToast("Coming Soon!", "middle")
+    //this.mmmToast("Coming Soon!", "middle")
+    this.edit.name = true;
   };
 
   editPassword() {
-    this.mmmToast("Coming Soon!", "middle")
+    //this.mmmToast("Coming Soon!", "middle")
+    this.edit.password = true;
   };
 
   editEmail() {
-    this.mmmToast("Coming Soon!", "middle")
+    //this.mmmToast("Coming Soon!", "middle")
+    this.edit.email = true;
   };
 
   editBirthday() {
-    this.mmmToast("Coming Soon!", "middle")
+    //this.mmmToast("Coming Soon!", "middle")
+    this.edit.birthday = true;
+  };
+
+  onSubmit() {};
+
+  onCancel() {
+    this.edit.name = false;
+    this.edit.password = false;
+    this.edit.email = false;
+    this.edit.birthday = false;
   };
 
 }

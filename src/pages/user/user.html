@@ -11,61 +11,97 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-row class="userimage" *ngIf="user.image">
-        <ion-col>
-            <img src="{{user.image}}" />
-        </ion-col>
-    </ion-row>
-    <ion-row align-items-center>
-        <ion-col col-4>
-            <p>User:</p>
-        </ion-col>
-        <ion-col col-6>
-            <p>{{user.firstname}} {{user.lastname}}</p>
-        </ion-col>
-        <ion-col col-2>
-            <button ion-button clear (click)="editName()">
-                <ion-icon name="create"></ion-icon>
-            </button>
-        </ion-col>
-    </ion-row>
-    <ion-row align-items-center>
-        <ion-col col-4>
-            <p>Username:</p>
-        </ion-col>
-        <ion-col col-6>
-            <p>{{user.username}}</p>
-        </ion-col>
-        <ion-col col-2>
-            <button ion-button clear (click)="editPassword()">
-                <ion-icon name="create"></ion-icon>
-            </button>
-        </ion-col>
-    </ion-row>
-    <ion-row align-items-center>
-        <ion-col col-4>
-            <p>Email:</p>
-        </ion-col>
-        <ion-col col-6>
-            <p>{{user.email}}</p>
-        </ion-col>
-        <ion-col col-2>
-            <button ion-button clear (click)="editEmail()">
-                <ion-icon name="create"></ion-icon>
-            </button>
-        </ion-col>
-    </ion-row>
-    <ion-row align-items-center>
-        <ion-col col-4>
-            <p>Birthday:</p>
-        </ion-col>
-        <ion-col col-6>
-            <p>{{user.birthday}}</p>
-        </ion-col>
-        <ion-col col-2>
-            <button ion-button clear (click)="editBirthday()">
-                <ion-icon name="create"></ion-icon>
-            </button>
-        </ion-col>
-    </ion-row>
+    <form [formGroup]="editUserForm">
+        <ion-row align-items-center>
+            <ion-col col-4>
+                <p>Username:</p>
+            </ion-col>
+            <ion-col col>
+                <p>{{user.username}}</p>
+            </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+            <ion-col col-4>
+                <p>Password:</p>
+            </ion-col>
+            <ion-col col>
+                <p *ngIf="!edit.password">*****</p>
+                <p *ngIf="edit.password">This is where we edit!</p>
+            </ion-col>
+            <ion-col col-1>
+                <button ion-button clear (click)="editPassword()" *ngIf="!edit.password">
+                    <ion-icon name="create"></ion-icon>
+                </button>
+                <button ion-button clear (click)="onCancel()" *ngIf="edit.password">
+                    <ion-icon name="close"></ion-icon>
+                </button>
+            </ion-col>
+        </ion-row>
+        <ion-row class="userimage" *ngIf="user.image">
+            <ion-col>
+                <img src="{{user.image}}" />
+            </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+            <ion-col col-3>
+                <p>Name:</p>
+            </ion-col>
+            <ion-col col>
+                <p *ngIf="!edit.name">{{user.firstname}} {{user.lastname}}</p>
+                <p *ngIf="edit.name">This is where we edit!</p>
+            </ion-col>
+            <ion-col col-1>
+                <button ion-button clear (click)="editName()" *ngIf="!edit.name">
+                    <ion-icon name="create"></ion-icon>
+                </button>
+                <button ion-button clear (click)="onCancel()" *ngIf="edit.name">
+                    <ion-icon name="close"></ion-icon>
+                </button>
+            </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+            <ion-col col-3>
+                <p>Email:</p>
+            </ion-col>
+            <ion-col col>
+                <p *ngIf="!edit.email">{{user.email}}</p>
+                <p *ngIf="edit.email">This is where we edit!</p>
+            </ion-col>
+            <ion-col col-1>
+                <button ion-button clear (click)="editEmail()" *ngIf="!edit.email">
+                    <ion-icon name="create"></ion-icon>
+                </button>
+                <button ion-button clear (click)="onCancel()" *ngIf="edit.email">
+                    <ion-icon name="close"></ion-icon>
+                </button>
+            </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+            <ion-col col-3>
+                <p>Birthday:</p>
+            </ion-col>
+            <ion-col col>
+                <p *ngIf="!edit.birthday">{{user.birthday}}</p>
+                <p *ngIf="edit.birthday">This is where we edit!</p>
+            </ion-col>
+            <ion-col col-1>
+                <button ion-button clear (click)="editBirthday()" *ngIf="!edit.birthday">
+                    <ion-icon name="create"></ion-icon>
+                </button>
+                <button ion-button clear (click)="onCancel()" *ngIf="edit.birthday">
+                    <ion-icon name="close"></ion-icon>
+                </button>
+            </ion-col>
+        </ion-row>
+    </form>
+    <div *ngIf="edit.password || edit.name || edit.email || edit.birthday">
+        <button ion-button float-left (click)="onSubmit()" icon-left>
+            <ion-icon name="checkmark-circle"></ion-icon>
+            <span>Submit</span>
+        </button>
+        <button ion-button float-right (click)="onCancel()" icon-left>
+            <ion-icon name="close-circle"></ion-icon>
+            <span>Cancel</span>
+        </button>
+    </div>
 </ion-content>

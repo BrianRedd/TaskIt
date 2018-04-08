@@ -12,7 +12,7 @@
 
 <ion-content padding>
     <ion-grid>
-        <h1>Welcome {{user.firstname}}</h1>
+        <h1 (click)="openUserPage()">Welcome {{user.firstname}}</h1>
         <h3 (click)="updateDate()">{{date}}</h3>
         <ion-card *ngIf="nextdue !== null">
             <ion-card-title>Next Pending Task</ion-card-title>

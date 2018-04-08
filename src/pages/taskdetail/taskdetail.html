@@ -12,11 +12,24 @@
 
 <ion-content padding>
     <ion-row align-items-center>
-        <ion-col col-4>
-            <h3 class="t_title">Title:</h3>
+        <ion-col col-2>
+            <ion-title class="t_title">Task:</ion-title>
         </ion-col>
-        <ion-col col-8>
-            <h3 class="t_title">{{task.title}}</h3>
+        <ion-col col>
+            <ion-title text-wrap class="t_title">
+                {{task.title}}
+            </ion-title>
+        </ion-col>
+        <ion-col col-1 *ngIf="!task.completed">
+            <ion-icon name="{{task.flag}}" large item-start color="{{task.flagcolor}}"></ion-icon>
+        </ion-col>
+        <ion-col col-2 align-self-start>
+            <button *ngIf="!task.completed" ion-button color="secondary" icon-center (click)="completeTask()">
+                <ion-icon name="square"></ion-icon>
+            </button>
+            <button *ngIf="task.completed" ion-button color="success" icon-center (click)="mmmToast(task.title+' is already completed.', 'middle')">
+                <ion-icon name="checkbox"></ion-icon>
+            </button>
         </ion-col>
     </ion-row>
     <ion-row align-items-center>
@@ -57,7 +70,7 @@
     </ion-row>
     <ion-card>
         <ion-card-title>List Items</ion-card-title>
-        <div *ngIf="!task.list || task.list.length > 0">
+        <div *ngIf="!task.list || task.list.length> 0">
             <ion-list *ngFor="let listitem of task.list" #item>
                 <ion-item text-wrap (click)="completeListItem($event, listitem)">
                     <ion-icon *ngIf="!listitem.completed" name="square-outline"></ion-icon>

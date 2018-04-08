@@ -3,6 +3,7 @@ import { IonicPage, NavController, ItemSliding, ToastController } from 'ionic-an
 import { LoginPage } from "../login/login";
 import { TasksPage } from "../tasks/tasks";
 import { TaskDetailPage } from '../taskdetail/taskdetail';
+import { UserPage } from "../user/user"; //**TEMPORARY**
 
 import { UserModel } from "../../models/usermodel";
 import { UserVO } from "../../shared/UserVO";
@@ -37,15 +38,16 @@ export class HomePage  {
     private toastCtrl: ToastController,
     public navCtrl: NavController
   ) {
+    console.log('constructor TasksPage');
     this.date = this.dateService.todaysDateString();
     if (!userModel.validateUser()) {
       this.navCtrl.setRoot(LoginPage);
     }
-    if (this.user.image === "Later") { //remove filler value for now
+    if (this.user.image === "Later") { //remove filler value for now **TEMPORARY**
       this.user.image = null;
     }
-    getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
-      tasks = taskFilter.sortTasks(tasks, "id", "asc");
+    this.getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
+      tasks = this.taskFilter.sortTasks(tasks, "id", "asc");
       //tasks = taskFilter.styleTasks(tasks);
       if (!tasks) {
         //console.log("No tasks for user " + this.user.id);
@@ -76,7 +78,7 @@ export class HomePage  {
         }
         this.tasks = [];
         this.tasks.push(newtask);
-        getTaskService.setUserTasks(this.user.id, this.tasks).subscribe(tasks => {
+        this.getTaskService.setUserTasks(this.user.id, this.tasks).subscribe(tasks => {
           this.tasks = tasks;
         });
       } else {
@@ -87,6 +89,17 @@ export class HomePage  {
     });
   }
 
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad TasksPage');
+  }
+
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter TasksPage');
+    if (this.tasks) {
+      this.updateDate();
+    }
+  }
+
   updateDate() {
     this.date = this.dateService.todaysDateString();
     this.nextDueTasks();
@@ -94,6 +107,10 @@ export class HomePage  {
 
   openTaskPage() {
     this.navCtrl.push(TasksPage);
+  }
+
+  openUserPage() { //**TEMPORARY**
+    this.navCtrl.push(UserPage);
   }
 
   openTaskDetail(event, task) {
@@ -116,7 +133,7 @@ export class HomePage  {
     } else {
       this.nextdue = next[0].id;
       high = this.taskFilter.filterTasks(next, "priority", 2);
-      console.log("High Priority tasks", high);
+      console.log("High Priority tasks", high, high.length);
       if (!high || high.length === 0) {
         this.highpriority_msg = "No High Priority Tasks Due";
         console.log(this.highpriority_msg);
@@ -124,8 +141,13 @@ export class HomePage  {
       } else {
         this.highpriority = high[0].id;
       }
-      if ((this.highpriority === this.nextdue) && high.length > 1) {
-        this.highpriority = high[1].id;
+      if (this.highpriority === this.nextdue) {
+        if (high.length > 1) {
+          this.highpriority = high[1].id;
+        } else {
+          this.highpriority = null;
+          this.highpriority_msg = "No High Priority Tasks Due";
+        }
       }
     }
   }

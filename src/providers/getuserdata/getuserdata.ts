@@ -25,4 +25,22 @@ export class GetuserdataProvider {
     }));
   };
 
+  setTIUsers(users) {
+    return Observable.fromPromise(this.storage.set("TIusers", users).then(users => {
+      return users;
+    }));
+  }
+
+  setCTIUser(user) {
+    return Observable.fromPromise(this.storage.set("CTIuser", user).then(user => {
+      return user;
+    }));
+  }
+
+  forgetCTIUser() {
+    return Observable.fromPromise(this.storage.remove("CTIuser").then(user => {
+      return user;
+    }));
+  }
+
 }

@@ -27,3 +27,14 @@ ion-toolbar {
 .t_date {
     font-size: 1.3rem!important;
 }
+
+.action-sheet-group,
+.alert-message {
+    overflow: auto;
+}
+
+.menu-inner {
+    .scroll-content {
+        overflow: auto;
+    }
+}

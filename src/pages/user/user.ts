@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
-import { Storage } from "@ionic/storage";
 
 import { UserModel } from "../../models/usermodel";
 import { UserVO } from "../../shared/UserVO";
@@ -29,7 +28,6 @@ export class UserPage {
     private userModel: UserModel,
     private toastCtrl: ToastController,
     private formBuilder: FormBuilder,
-    private storage: Storage,
     private getUserService: GetuserdataProvider,
     public navParams: NavParams
   ) {
@@ -105,11 +103,11 @@ export class UserPage {
       this.user.password = password;
     }
     this.users[this.user.id] = this.user;
-    this.storage.set("CTIuser", this.user).then(() => {
-      this.storage.set("TIusers", this.users).then(() => {
-        this.mmmToast("User " + this.user.username + " updated.", "top");
-        this.onCancel();
-      });
+    this.getUserService.setCTIUser(this.user).subscribe((user) => {
+        this.getUserService.setTIUsers(this.users).subscribe((users) => {
+          this.mmmToast("User " + this.user.username + " updated.", "top");
+          this.onCancel();
+        });
     });
   };
 

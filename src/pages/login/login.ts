@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, ToastController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
-import { Storage } from "@ionic/storage";
+//import { Storage } from "@ionic/storage";
 
 import { NewUserPage } from "../../pages/newuser/newuser";
 import { HomePage } from "../../pages/home/home";
@@ -29,7 +29,7 @@ export class LoginPage {
     private toastCtrl: ToastController,
     private authService: AuthenticationProvider,
     private getUserService: GetuserdataProvider,
-    private storage: Storage,
+    //private storage: Storage,
     public userModel: UserModel,
     public navParams: NavParams
   ) {
@@ -69,9 +69,13 @@ export class LoginPage {
     this.user.username = this.loginForm.get("username").value;
     this.user.password = this.loginForm.get("password").value;
     if (this.loginForm.get("remember").value) {
-      this.storage.set("CTIuser", this.user);
+      this.getUserService.setCTIUser(this.user).subscribe((user) => {
+        console.log("User " + user.username + " remembered");
+      });
     } else {
-      this.storage.remove("CTIuser");
+      this.getUserService.forgetCTIUser().subscribe(user => {
+        console.log("User forgotten");
+      });
     }
     this.validateUser(this.user.username, this.user.password);
   };

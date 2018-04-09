@@ -46,11 +46,11 @@ export class HomePage  {
     if (this.user.image === "Later") { //remove filler value for now **TEMPORARY**
       this.user.image = "assets/imgs/generic_user.png";
     }
-    this.getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
-      tasks = this.taskFilter.sortTasks(tasks, "id", "asc");
+    //console.log(this.user);
+    this.getTaskService.getUserTasks(this.user.id).subscribe(tasks => {     
       //tasks = taskFilter.styleTasks(tasks);
       if (!tasks) {
-        //console.log("No tasks for user " + this.user.id);
+        console.log("No tasks for user " + this.user.id);
         let newtask: TaskVO = new TaskVO();
         if (this.user.birthday) {
           newtask.id = 0;
@@ -63,7 +63,7 @@ export class HomePage  {
           newtask.recurring = true;
           newtask.priority = 1;
           newtask.category = 4;
-          //console.log("Birthday Task:", newtask);
+          console.log("Birthday Task:", newtask);
         } else {
           newtask.id = 0;
           let temp: any = this.dateService.todaysDateString();
@@ -74,7 +74,7 @@ export class HomePage  {
           newtask.recurring = false;
           newtask.priority = 1;
           newtask.category = 5;
-          //console.log("Sample Task:", newtask);
+          console.log("Sample Task:", newtask);
         }
         this.tasks = [];
         this.tasks.push(newtask);
@@ -84,7 +84,8 @@ export class HomePage  {
       } else {
         this.tasks = tasks;
         //console.log(this.tasks);
-      }
+        this.tasks = this.taskFilter.sortTasks(this.tasks, "id", "asc");
+      } 
       this.nextDueTasks();
     });
   }

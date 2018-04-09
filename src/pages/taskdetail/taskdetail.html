@@ -7,25 +7,30 @@
             <ion-icon name="document"></ion-icon>
             <span no-wrap>{{task.title}}</span>
         </ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="presentActionSheet()">
+                <ion-icon name="more"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
     <ion-row align-items-center>
-        <ion-col col-9>
+        <ion-col col-9 align-items-center>
             <h2 text-wrap class="t_title">
                 {{task.title}}
             </h2>
         </ion-col>
-        <ion-col col-1>
+        <ion-col col-1 align-items-center>
             <ion-icon *ngIf="!task.completed" name="{{task.flag}}" large item-start color="{{task.flagcolor}}"></ion-icon>
         </ion-col>
-        <ion-col col-2 align-self-start>
-            <button *ngIf="!task.completed" ion-button color="secondary" icon-center (click)="completeTask()">
-                <ion-icon name="square"></ion-icon>
+        <ion-col col-2 align-items-center>
+            <button *ngIf="!task.completed" ion-button icon-only clear color="secondary" icon-center (click)="completeTask()">
+                <ion-icon name="square-outline"></ion-icon>
             </button>
-            <button *ngIf="task.completed" ion-button color="success" icon-center (click)="restoreTask()">
-                <ion-icon name="checkbox"></ion-icon>
+            <button *ngIf="task.completed" ion-button icon-only clear color="success" icon-center (click)="restoreTask()">
+                <ion-icon name="checkbox-outline"></ion-icon>
             </button>
         </ion-col>
     </ion-row>
@@ -68,7 +73,7 @@
     <ion-card>
         <ion-navbar>
             <ion-buttons start *ngIf="!task.completed" t>
-                <button ion-button clear (click)="addListItem()" color="success">
+                <button ion-button icon-only clear (click)="addListItem()" color="success">
                     <ion-icon name="add-circle"></ion-icon>
                 </button>
             </ion-buttons>
@@ -76,7 +81,7 @@
                 <span>List Items</span>
             </ion-title>
             <ion-buttons end *ngIf="task.list && (task.list.length > 0)">
-                <button ion-button clear (click)="toggleReorder()" color="success">
+                <button ion-button icon-only clear (click)="toggleReorder()" color="success">
                     <ion-icon name="reorder"></ion-icon>
                 </button>
             </ion-buttons>

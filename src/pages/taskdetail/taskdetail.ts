@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, reorderArray, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, reorderArray, AlertController, ActionSheetController } from 'ionic-angular';
 
 import { UserModel } from "../../models/usermodel";
 import { UserVO } from "../../shared/UserVO";
@@ -32,6 +32,7 @@ export class TaskDetailPage {
     private dateService: DateconverterProvider,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
+    private actionCtrl: ActionSheetController,
     public navParams: NavParams
   ) {
     getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
@@ -168,6 +169,71 @@ export class TaskDetailPage {
       ]
     });
     alert.present();
+  }
+
+  presentActionSheet() {
+    //this.mmmToast("Coming soon!", "middle");
+    let status = {
+      "msg": "Complete Task",
+      "icon": "checkbox-outline"
+    };
+    if (this.task.completed) {
+      status = {
+        "msg": "Restore Task",
+        "icon": "square-outline"
+      };
+    }
+    let actionSheet = this.actionCtrl.create({
+      title: "Advanced Task Options",
+      buttons: [
+        {
+          text: status.msg,
+          icon: status.icon,
+          handler: () => {
+            if (!this.task.completed) {
+              this.completeTask();
+            } else {
+              this.restoreTask();
+            }
+          }
+        }, 
+        {
+          text: "Edit Task",
+          icon: "create",
+          handler: () => {
+            this.editTask();
+          }
+        },  
+        {
+          text: "Clone Task",
+          icon: "copy",
+          handler: () => {
+            this.cloneTask();
+          }
+        }, 
+        {
+          text: "Add List Item",
+          icon: "add-circle",
+          handler: () => {
+            this.addListItem();
+          }
+        },
+        {
+          text: "Cancel",
+          icon: "close-circle",
+          role: "cancel"
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  editTask() {
+    this.mmmToast("Coming Soon!", "middle");
+  }
+
+  cloneTask() {
+    this.mmmToast("Coming Soon!", "middle");
   }
 
   mmmToast(msg: string, pos: string) {

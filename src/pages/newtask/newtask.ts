@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
-import { Storage } from "@ionic/storage";
+//import { Storage } from "@ionic/storage";
 import { TasksPage } from "../tasks/tasks";
 
 import { UserModel } from "../../models/usermodel";
@@ -28,7 +28,7 @@ export class NewTaskPage {
   constructor(
     public navCtrl: NavController,
     private formBuilder: FormBuilder,
-    private storage: Storage,
+    //private storage: Storage,
     private userModel: UserModel,
     private getTaskService: GettaskdataProvider,
     private dateService: DateconverterProvider,

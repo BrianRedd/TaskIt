@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
-import { Storage } from "@ionic/storage";
+//import { Storage } from "@ionic/storage";
 
 import { UserVO } from "../../shared/UserVO";
 import { GetuserdataProvider } from "../../providers/getuserdata/getuserdata";
@@ -23,7 +23,7 @@ export class NewUserPage {
     public navCtrl: NavController, 
     private viewCtrl: ViewController,
     private formBuilder: FormBuilder,
-    private storage: Storage,
+    //private storage: Storage,
     private toastCtrl: ToastController,
     private getUserService: GetuserdataProvider,
     public navParams: NavParams
@@ -107,11 +107,16 @@ export class NewUserPage {
       this.user.image = "assets/imgs/generic_user.png";
       //console.log("New User: user after form:", this.user);
       this.users.push(this.user);
-      this.storage.set("CTIuser", this.user).then(() => {
-        this.storage.set("TIusers", this.users).then(() => {
+      this.getUserService.setCTIUser(this.user).subscribe((user) => {
+        this.getUserService.setTIUsers(this.users).subscribe((users) => {
           this.viewCtrl.dismiss();
         });
       });
+      /*this.storage.set("CTIuser", this.user).then(() => {
+        this.storage.set("TIusers", this.users).then(() => {
+          this.viewCtrl.dismiss();
+        });
+      });*/
     } else {
       if (!errmess) {
         this.mmmToast("Error with form; try again.", "middle");

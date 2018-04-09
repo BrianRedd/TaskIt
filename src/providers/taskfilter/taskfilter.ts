@@ -20,7 +20,7 @@ export class TaskfilterProvider {
       order = "asc";
     }
     let temp: TaskVO;
-    for (var i: number = 0; i < tasks.length -1; i++) {
+    for (var i: number = 0; i < tasks.length; i++) {
       for (var ii: number = i; ii < tasks.length; ii++ ) {
         if (order === "asc") {
           if (tasks[ii][method] < tasks[i][method]) {

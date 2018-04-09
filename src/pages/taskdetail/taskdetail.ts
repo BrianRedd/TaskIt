@@ -6,6 +6,8 @@ import { UserVO } from "../../shared/UserVO";
 
 import { TaskVO, ListVO } from "../../shared/TaskVO";
 import { CategoryVO, Categories } from "../../shared/CategoryVO";
+import { EdittaskPage } from "../../pages/edittask/edittask";
+
 import { GettaskdataProvider } from "../../providers/gettaskdata/gettaskdata";
 import { TaskfilterProvider } from "../../providers/taskfilter/taskfilter";
 import { DateconverterProvider } from "../../providers/dateconverter/dateconverter"; 
@@ -63,6 +65,10 @@ export class TaskDetailPage {
   }
 
   addListItem() {
+    if (this.task.completed) {
+      this.mmmToast("Action only available on Active tasks", "middle");
+      return;
+    }
     let alert = this.alertCtrl.create({
       title: "Add List Item",
       inputs: [
@@ -220,7 +226,7 @@ export class TaskDetailPage {
         },
         {
           text: "Cancel",
-          icon: "close-circle",
+          icon: "close",
           role: "cancel"
         }
       ]
@@ -229,7 +235,14 @@ export class TaskDetailPage {
   }
 
   editTask() {
-    this.mmmToast("Coming Soon!", "middle");
+    console.log(this.task);
+    if (this.task.completed) {
+      this.mmmToast("Action only available on Active tasks", "middle");
+      return;
+    }
+    this.navCtrl.push(EdittaskPage, {
+      task: this.task
+    });
   }
 
   cloneTask() {

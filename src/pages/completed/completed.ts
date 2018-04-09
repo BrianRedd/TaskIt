@@ -38,7 +38,7 @@ export class CompletedPage {
     console.log('ionViewDidEnter CompletedPage');
     this.getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
       this.tasks = this.taskFilter.filterTasks(tasks, "completed", true);
-      this.tasks = this.taskFilter.sortTasks(this.tasks, "dateScheduled", "asc");
+      this.tasks = this.taskFilter.sortTasks(this.tasks, "dateUpdated", "desc");
       this.tasks = this.taskFilter.styleTasks(this.tasks);
     });
   }

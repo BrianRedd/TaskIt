@@ -20,6 +20,12 @@ export class GettaskdataProvider {
     }));
   };
 
+  getTask(user: number, id: number) {
+    return Observable.fromPromise(this.storage.get("Tasks_" + user).then(tasks => {
+      return tasks[id];
+    }));
+  }
+
   setUserTasks(user: number, tasksArray: any) {
     return Observable.fromPromise(this.storage.set("Tasks_" + user, tasksArray).then(tasks => {
       return tasks;

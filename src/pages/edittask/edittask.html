@@ -1,18 +1,51 @@
-<!--
-  Generated template for the EdittaskPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>edittask</ion-title>
-  </ion-navbar>
-
+    <ion-navbar color="success">
+        <button ion-button menuToggle>
+  <ion-icon name="menu"></ion-icon>
+</button>
+        <ion-title>
+            <ion-icon name="create"></ion-icon>
+            <span>Edit: {{task.title}}</span>
+        </ion-title>
+    </ion-navbar>
 </ion-header>
 
-
 <ion-content padding>
-
+    <form [formGroup]="editTaskForm" (ngSubmit)="onSubmit()">
+        <ion-item>
+            <ion-label floating required>Task Title</ion-label>
+            <ion-input type="text" formControlName="title"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Task Description</ion-label>
+            <ion-input type="text" formControlName="description"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Date Scheduled</ion-label>
+            <ion-datetime displayFormat="DDDD, MMM DD, YYYY" pickerFormat="DDD MMM DD YYYY" formControlName="dateScheduled"></ion-datetime>
+        </ion-item>
+        <ion-item>
+            <ion-label>Annual Recurrence</ion-label>
+            <ion-toggle formControlName="recurring"></ion-toggle>
+        </ion-item>
+        <ion-item>
+            <ion-label>Priority</ion-label>
+            <ion-range formControlName="priority" min="0" max="2" snaps="true">
+                <ion-icon range-left name="trending-down" color="archive"></ion-icon>
+                <ion-icon range-right name="trending-up" color="primary"></ion-icon>
+            </ion-range>
+        </ion-item>
+        <ion-item>
+            <ion-label>Category</ion-label>
+            <ion-select formControlName="category">
+                <ion-option *ngFor="let cat of categories" value={{cat.id}}>{{cat.name}}</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>List Items</ion-label>
+            <ion-textarea formControlName="list" rows="4"></ion-textarea>
+        </ion-item>
+        <button ion-button float-left type="submit" [disabled]="!editTaskForm.valid" color="success">Submit</button>
+        <button ion-button float-right color="secondary" (click)="navCtrl.pop()">Cancel</button>
+    </form>
 </ion-content>

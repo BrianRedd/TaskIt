@@ -37,9 +37,9 @@ export class TaskDetailPage {
     private actionCtrl: ActionSheetController,
     public navParams: NavParams
   ) {
-    getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
-      this.tasks = taskFilter.sortTasks(tasks, "id", "asc");
-      this.tasks = taskFilter.styleTasks(tasks);
+    this.getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
+      this.tasks = this.taskFilter.sortTasks(tasks, "id", "asc");
+      this.tasks = this.taskFilter.styleTasks(tasks);
       //category not defined - **TEMPORARY**
       if (!this.task.category) {
         //console.log("Category for task #" + this.task.id + " is undefined");
@@ -50,11 +50,18 @@ export class TaskDetailPage {
         //console.log("Task should be updated.");
       }
     });
-    this.task = navParams.get("task");
+    this.task = this.navParams.get("task");
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TaskDetailPage');
+  }
+
+  ionViewDidEnter() {
+    let id = this.task.id;
+    this.getTaskService.getTask(this.user.id, id).subscribe((task) => {
+      this.task = task;
+    });
   }
 
   updateTasks() {

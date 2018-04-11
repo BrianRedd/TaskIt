@@ -5,7 +5,10 @@ page-home {
     .italic * {
         font-style: italic;
     }
+    .due * {
+        color: #0053A7;
+    }
     .overdue * {
-        color: red;
+        color: #A21863;
     }
 }

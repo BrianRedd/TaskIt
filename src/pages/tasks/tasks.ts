@@ -34,19 +34,27 @@ export class TasksPage {
     private toastCtrl: ToastController,
     public navCtrl: NavController
   ) {
-    getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
-      this.tasks = taskFilter.sortTasks(tasks, "dateScheduled", "asc");
-      this.tasks = taskFilter.styleTasks(tasks);
+    this.loadTasks();
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad TasksPage');
+  }
+
+  ionViewDidEnter() {
+    this.loadTasks();
+  }
+
+  loadTasks() {
+    this.getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
+      this.tasks = this.taskFilter.sortTasks(tasks, "dateScheduled", "asc");
+      this.tasks = this.taskFilter.styleTasks(tasks);
       for (var i: number = 0; i < tasks.length; i++) {//***TEMPORARY */
         if (this.tasks[i].category === NaN || !this.tasks[i].category) {
           this.tasks[i].category = 5;
         }
       }
     });
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TasksPage');
   }
 
   openTaskDetail(event, task) {

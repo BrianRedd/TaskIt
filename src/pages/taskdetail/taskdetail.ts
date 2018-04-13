@@ -41,14 +41,14 @@ export class TaskDetailPage {
       this.tasks = this.taskFilter.sortTasks(tasks, "id", "asc");
       this.tasks = this.taskFilter.styleTasks(tasks);
       //category not defined - **TEMPORARY**
-      if (!this.task.category) {
+      /*if (!this.task.category) {
         //console.log("Category for task #" + this.task.id + " is undefined");
         this.task.category = 5;
         //console.log("Category for task #" + this.task.id + " should now be " + this.task.category);
         this.tasks[this.task.id].category = this.task.category;        
         this.getTaskService.setUserTasks(this.user.id, this.tasks);
         //console.log("Task should be updated.");
-      }
+      }*/
     });
     this.task = this.navParams.get("task");
   }
@@ -58,6 +58,7 @@ export class TaskDetailPage {
   }
 
   ionViewDidEnter() {
+    console.log('ionViewDidEnter TaskDetailPage');
     let id = this.task.id;
     this.getTaskService.getTask(this.user.id, id).subscribe((task) => {
       this.task = task;
@@ -242,7 +243,7 @@ export class TaskDetailPage {
   }
 
   editTask() {
-    console.log(this.task);
+    //console.log(this.task);
     if (this.task.completed) {
       this.mmmToast("Action only available on Active tasks", "middle");
       return;
@@ -253,7 +254,32 @@ export class TaskDetailPage {
   }
 
   cloneTask() {
-    this.mmmToast("Coming Soon!", "middle");
+    let alert = this.alertCtrl.create({
+      title: "Clone Task?",
+      message: "Are you sure you want to clone &quot;" +  this.task.title + "&quot;?",
+      buttons: [
+        {
+          text: "No",
+          role: "cancel",
+          handler: () => {
+            console.log("Action canceled!");
+          }
+        },
+        {
+          text: "Yes",
+          handler: () => {
+            let clonetask: TaskVO = new TaskVO;
+            clonetask = this.task;
+            clonetask.title = "New " + clonetask.title;
+            this.navCtrl.push(EdittaskPage, {
+              task: clonetask,
+              clone: true
+            });
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   mmmToast(msg: string, pos: string) {

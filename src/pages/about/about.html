@@ -15,4 +15,21 @@
     <p>
         &copy; 2018 RBrianRedd.com
     </p>
+
+    <ion-fab left bottom>
+        <button ion-fab mini color="light">
+            <ion-icon name="bug"></ion-icon>
+        </button>
+        <ion-fab-list side="right">
+            <a ion-fab color="light" (click)="openDebugger('user')">
+                <ion-icon name="contact"></ion-icon>
+            </a>
+            <a ion-fab color="light" (click)="openDebugger('users')">
+                <ion-icon name="contacts"></ion-icon>
+            </a>
+            <a ion-fab color="light" (click)="openDebugger('tasks')">
+                <ion-icon name="list-box"></ion-icon>
+            </a>
+        </ion-fab-list>
+    </ion-fab>
 </ion-content>

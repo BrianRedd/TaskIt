@@ -46,11 +46,10 @@ export class HomePage  {
     if (this.user.image === "Later") { //remove filler value for now **TEMPORARY**
       this.user.image = "assets/imgs/generic_user.png";
     }
-    //console.log(this.user);
     this.getTaskService.getUserTasks(this.user.id).subscribe(tasks => {     
       //tasks = taskFilter.styleTasks(tasks);
       if (!tasks) {
-        console.log("No tasks for user " + this.user.id);
+        //console.log("No tasks for user " + this.user.id);
         let newtask: TaskVO = new TaskVO();
         if (this.user.birthday) {
           newtask.id = 0;
@@ -63,7 +62,7 @@ export class HomePage  {
           newtask.recurring = true;
           newtask.priority = 1;
           newtask.category = 4;
-          console.log("Birthday Task:", newtask);
+          //console.log("Birthday Task:", newtask);
         } else {
           newtask.id = 0;
           let temp: any = this.dateService.todaysDateString();
@@ -74,7 +73,7 @@ export class HomePage  {
           newtask.recurring = false;
           newtask.priority = 1;
           newtask.category = 5;
-          console.log("Sample Task:", newtask);
+          //console.log("Sample Task:", newtask);
         }
         this.tasks = [];
         this.tasks.push(newtask);
@@ -110,10 +109,6 @@ export class HomePage  {
     this.navCtrl.push(TasksPage);
   }
 
-  /*openUserPage() { //**TEMPORARY**
-    this.navCtrl.push(UserPage);
-  }*/
-
   openTaskDetail(event, task) {
     this.navCtrl.push(TaskDetailPage, {
       task: task
@@ -121,40 +116,44 @@ export class HomePage  {
   }
 
   nextDueTasks() {
-    this.nextdue_msg = "";
-    this.highpriority_msg = "";
-    let next: TaskVO[] = [];
-    let high: TaskVO[] = [];
-    next = this.taskFilter.filterTasks(this.tasks, "completed", "-1");
-    next = this.taskFilter.sortTasks(next, "dateScheduled", "asc");
-    next = this.taskFilter.styleTasks(next);
-    if (!next || next.length === 0) {
-      this.nextdue_msg = "No Pending Tasks Due";
-      this.nextdue = null;
-    } else {
-      this.nextdue = next[0].id;
-      high = this.taskFilter.filterTasks(next, "priority", 2);
-      console.log("High Priority tasks", high, high.length);
-      if (!high || high.length === 0) {
-        this.highpriority_msg = "No High Priority Tasks Due";
-        console.log(this.highpriority_msg);
-        this.highpriority = null;
+    console.log('newDueTasks()');
+    this.getTaskService.getUserTasks(this.user.id).subscribe((tasks) => {
+      this.tasks = tasks;
+      this.nextdue_msg = "";
+      this.highpriority_msg = "";
+      let next: TaskVO[] = [];
+      let high: TaskVO[] = [];
+      next = this.taskFilter.filterTasks(this.tasks, "completed", "-1");
+      next = this.taskFilter.sortTasks(next, "dateScheduled", "asc");
+      next = this.taskFilter.styleTasks(next);
+      if (!next || next.length === 0) {
+        this.nextdue_msg = "No Pending Tasks Due";
+        this.nextdue = null;
       } else {
-        this.highpriority = high[0].id;
-      }
-      if (this.highpriority === this.nextdue) {
-        if (high.length > 1) {
-          this.highpriority = high[1].id;
-        } else {
-          this.highpriority = null;
+        this.nextdue = next[0].id;
+        high = this.taskFilter.filterTasks(next, "priority", 2);
+        //console.log("High Priority tasks", high, high.length);
+        if (!high || high.length === 0) {
           this.highpriority_msg = "No High Priority Tasks Due";
+          console.log(this.highpriority_msg);
+          this.highpriority = null;
+        } else {
+          this.highpriority = high[0].id;
+        }
+        if (this.highpriority === this.nextdue) {
+          if (high.length > 1) {
+            this.highpriority = high[1].id;
+          } else {
+            this.highpriority = null;
+            this.highpriority_msg = "No High Priority Tasks Due";
+          }
         }
       }
-    }
+    });
   }
 
   completeTask(item: ItemSliding, task: any) {
-    console.log(task.id, task.title);
+    //console.log(task.id, task.title);
     task.dateUpdated = this.dateService.todaysDateString();
     if (task.completed) {
       task.completed = false;

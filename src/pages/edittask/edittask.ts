@@ -12,6 +12,7 @@ import { GettaskdataProvider } from "../../providers/gettaskdata/gettaskdata";
 import { TaskfilterProvider } from "../../providers/taskfilter/taskfilter";
 import { DateconverterProvider } from "../../providers/dateconverter/dateconverter";
 import { TasksPage } from '../tasks/tasks';
+import { TaskDetailPage } from '../taskdetail/taskdetail';
 
 @IonicPage()
 @Component({
@@ -41,10 +42,13 @@ export class EdittaskPage {
     getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
       this.tasks = tasks;
       this.tasks = taskFilter.sortTasks(tasks, "id", "asc");
-      console.log("Task Editor task list, sorted", this.tasks);
+      //console.log("Task Editor task list, sorted", this.tasks);
     });
     this.task = navParams.get("task");
-    console.log("Editing:", this.task);
+    if (navParams.get("clone")) {
+      this.clone = navParams.get("clone");
+    } 
+    //console.log("Editing:", this.task);
     if (this.task.list && this.task.list.length > 0) {
       for (var i: number = 0; i < this.task.list.length; i++) {
         this.listitems += this.task.list[i].title + "\n";
@@ -66,8 +70,18 @@ export class EdittaskPage {
   }
 
   onSubmit() {
-    let tt = this.task.id;
-    this.tasks[tt].id = tt;
+    let tt: number;
+    if (this.clone) {
+      tt = this.tasks.length;
+      let clonetask: TaskVO = new TaskVO;
+      clonetask.id = tt;
+      clonetask.dateCreated = this.dateService.todaysDateString();
+      clonetask.completed = false;
+      this.tasks.push(clonetask);
+    } else {
+      tt = this.task.id;
+      this.tasks[tt].id = tt;
+    }
     this.tasks[tt].title = this.editTaskForm.get("title").value;
     if (!this.editTaskForm.get("description").value) {
       this.tasks[tt].description = this.tasks[tt].title;
@@ -78,16 +92,20 @@ export class EdittaskPage {
     this.tasks[tt].recurring = this.editTaskForm.get("recurring").value;
     this.tasks[tt].priority = this.editTaskForm.get("priority").value;
     this.tasks[tt].category = parseInt(this.editTaskForm.get("category").value);
-    this.tasks[tt].dateUpdated = this.dateService.todaysDateString();
+    if (this.clone) {
+      this.tasks[tt].dateUpdated = "";
+    } else {
+      this.tasks[tt].dateUpdated = this.dateService.todaysDateString();
+    }
     //List
     if (this.editTaskForm.get("list").value) {
       let newlist: any = [];
       let tmplist: any = this.editTaskForm.get("list").value;
       tmplist = tmplist.split("\n");
-      console.log(tmplist);
+      //console.log(tmplist);
       let ii: number = 0;
       for (var i: number = 0; i < tmplist.length; i++) {
-        console.log("i", i, "ii", ii);
+        //console.log("i", i, "ii", ii);
         if (tmplist[i]) {
           newlist[ii] = {
             "id": ii,
@@ -97,15 +115,21 @@ export class EdittaskPage {
           ii++;
         }
       }
-      console.log("newlist", newlist);
+      //console.log("newlist", newlist);
       this.tasks[tt].list = newlist;
-      this.task = this.tasks[tt];
     }
-    console.log("Updated Task " + tt, this.tasks[tt]);
+    this.task = this.tasks[tt];
+    //console.log("Updated Task " + tt, this.tasks[tt]);
     this.getTaskService.setUserTasks(this.user.id, this.tasks).subscribe(tasks => {
       this.tasks = tasks;
-      console.log("Tasks updated", this.tasks);
-      this.navCtrl.pop();
+      //console.log("Tasks updated", this.tasks);
+      if (this.clone) {
+        this.navCtrl.push(TaskDetailPage, {
+          task: this.task
+        });
+      } else {
+        this.navCtrl.pop();
+      }
     });
   };
 

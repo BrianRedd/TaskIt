@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the AboutPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { DebugPage } from '../debug/debug';
+import { UserModel } from "../../models/usermodel";
+import { UserVO } from "../../shared/UserVO";
 
 @IonicPage()
 @Component({
@@ -15,11 +11,28 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AboutPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  user: UserVO = this.userModel.user;
+
+  constructor(
+    public navCtrl: NavController, 
+    private modalCtrl: ModalController,
+    private userModel: UserModel,
+    public navParams: NavParams
+  ) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AboutPage');
+  }
+
+  openDebugger(datatype: string) {
+    let modal = this.modalCtrl.create(DebugPage, {
+      datatype: datatype
+    });
+    modal.present();
+    /*this.navCtrl.push(DebugPage, {
+      datatype: datatype
+    });*/
   }
 
 }

@@ -49,11 +49,11 @@ export class TasksPage {
     this.getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
       this.tasks = this.taskFilter.sortTasks(tasks, "dateScheduled", "asc");
       this.tasks = this.taskFilter.styleTasks(tasks);
-      for (var i: number = 0; i < tasks.length; i++) {//***TEMPORARY */
+      /*for (var i: number = 0; i < tasks.length; i++) {//***TEMPORARY***
         if (this.tasks[i].category === NaN || !this.tasks[i].category) {
           this.tasks[i].category = 5;
         }
-      }
+      }*/
     });
   }
 

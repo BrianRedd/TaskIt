@@ -10,10 +10,10 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
     <ion-grid>
-        <h1>Welcome {{user.firstname}}</h1>
-        <h3 (click)="updateDate()">{{date}}</h3>
+        <h1 text-center>Welcome {{user.firstname}}</h1>
+        <h3 text-center (click)="updateDate()">{{date}}</h3>
         <ion-card *ngIf="nextdue !== null">
             <ion-card-title>Next Pending Task</ion-card-title>
             <ion-list>

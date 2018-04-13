@@ -14,6 +14,7 @@ import { AboutPage } from '../pages/about/about';
 import { NewUserPage } from "../pages/newuser/newuser";
 import { TaskDetailPage } from "../pages/taskdetail/taskdetail";
 import { EdittaskPage } from "../pages/edittask/edittask";
+import { DebugPage } from "../pages/debug/debug";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -38,7 +39,8 @@ import { CategoryVO } from "../shared/CategoryVO";
     LoginPage,
     NewUserPage,
     TaskDetailPage,
-    EdittaskPage
+    EdittaskPage,
+    DebugPage
   ],
   imports: [
     BrowserModule,
@@ -57,7 +59,8 @@ import { CategoryVO } from "../shared/CategoryVO";
     LoginPage,
     NewUserPage,
     TaskDetailPage,
-    EdittaskPage
+    EdittaskPage,
+    DebugPage
   ],
   providers: [
     StatusBar,

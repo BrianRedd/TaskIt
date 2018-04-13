@@ -53,15 +53,12 @@ export class TaskfilterProvider {
         tasks[i].style += " due";
       } else if (tasks[i].dateScheduled < date) {
         tasks[i].flag = "warning";
-        tasks[i].flagcolor = "red";
         tasks[i].style += " overdue";
       }
       if (tasks[i].priority === 0) {
         tasks[i].flag = "trending-down";
-        tasks[i].flagcolor = "archive";
       } else if (tasks[i].priority === 2) {
         tasks[i].flag = "trending-up";
-        tasks[i].flagcolor = "primary";
         tasks[i].style += " bold";
       }
       if (tasks[i].recurring) {

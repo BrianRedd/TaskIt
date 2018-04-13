@@ -9,7 +9,7 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
     <div *ngIf="tasks">
         <ion-list *ngFor="let task of tasks" #item class="{{task.style}}">
             <ion-item (click)="openTaskDetail($event, task)">

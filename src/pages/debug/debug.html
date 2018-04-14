@@ -12,13 +12,13 @@
 
 
 <ion-content padding>
-    <pre *ngIf="datatype==='user'">
+    <pre *ngIf="datatype === 'user'">
         {{user | json}}
     </pre>
-    <pre *ngIf="datatype==='users'">
+    <pre *ngIf="datatype === 'users' && user.id === 0">
         {{users | json}}
     </pre>
-    <pre *ngIf="datatype==='tasks'">
+    <pre *ngIf="datatype === 'tasks'">
         {{tasks | json}}
     </pre>
 </ion-content>

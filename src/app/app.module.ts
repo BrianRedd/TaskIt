@@ -18,6 +18,7 @@ import { DebugPage } from "../pages/debug/debug";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { EmailComposer } from "@ionic-native/email-composer";
 import { UserModel } from "../models/usermodel";
 import { GetuserdataProvider } from '../providers/getuserdata/getuserdata';
 import { GettaskdataProvider } from '../providers/gettaskdata/gettaskdata';
@@ -65,6 +66,7 @@ import { CategoryVO } from "../shared/CategoryVO";
   providers: [
     StatusBar,
     SplashScreen,
+		EmailComposer,
     UserModel,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GetuserdataProvider,

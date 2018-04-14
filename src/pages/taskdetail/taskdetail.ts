@@ -40,15 +40,6 @@ export class TaskDetailPage {
     this.getTaskService.getUserTasks(this.user.id).subscribe(tasks => {
       this.tasks = this.taskFilter.sortTasks(tasks, "id", "asc");
       this.tasks = this.taskFilter.styleTasks(tasks);
-      //category not defined - **TEMPORARY**
-      /*if (!this.task.category) {
-        //console.log("Category for task #" + this.task.id + " is undefined");
-        this.task.category = 5;
-        //console.log("Category for task #" + this.task.id + " should now be " + this.task.category);
-        this.tasks[this.task.id].category = this.task.category;        
-        this.getTaskService.setUserTasks(this.user.id, this.tasks);
-        //console.log("Task should be updated.");
-      }*/
     });
     this.task = this.navParams.get("task");
   }
@@ -148,7 +139,6 @@ export class TaskDetailPage {
   }
 
   completeTask() {
-    //console.log(task.id, task.title);
     this.tasks = this.taskFilter.sortTasks(this.tasks, "id", "asc");
     this.task.dateUpdated = this.dateService.todaysDateString();
     if (this.task.completed) {
@@ -156,6 +146,36 @@ export class TaskDetailPage {
     } else {
       this.task.completed = true;
       this.mmmToast("Task " + this.task.title + " completed!", "middle");
+      if (this.task.recurring) {
+        let alert = this.alertCtrl.create({
+          title: "Create next year's " + this.task.title + "?",
+          message: this.task.title + " is a recurring task. Create next year's version now?",
+          buttons: [
+            {
+              text: "No",
+              role: "cancel",
+              handler: () => {
+                console.log("Action canceled!");
+              }
+            }, 
+            {
+              text: "Yes",
+              handler: () => {
+                let clonetask: TaskVO = new TaskVO;
+                clonetask = this.task;
+                clonetask.title = clonetask.title;
+                clonetask.dateScheduled = this.dateService.nextRecurring(this.task.dateScheduled);
+                console.log(clonetask.dateScheduled);
+                this.navCtrl.push(EdittaskPage, {
+                  task: clonetask,
+                  clone: true
+                });
+              }
+            }
+          ]
+        });
+        alert.present();
+      }
     }
     this.updateTasks();
   }

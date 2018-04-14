@@ -68,18 +68,25 @@ export class TasksPage {
   }
 
   completeTask(item: ItemSliding, task: any) {
-    //console.log(task.id, task.title);
-    task.dateUpdated = this.dateService.todaysDateString();
-    if (task.completed) {
-      task.completed = false;
-      this.mmmToast("Task " + task.title + " restored to active!", "middle");
+    if (task.recurring) {
+      this.mmmToast(task.title + " is a recurring task.", "middle");
+      item.close();
+      this.navCtrl.push(TaskDetailPage, {
+        task: task
+      });
     } else {
-      task.completed = true;
-      this.mmmToast("Task " + task.title + " completed!", "middle");
+      task.dateUpdated = this.dateService.todaysDateString();
+      if (task.completed) {
+        task.completed = false;
+        this.mmmToast("Task " + task.title + " restored to active!", "middle");
+      } else {
+        task.completed = true;
+        this.mmmToast("Task " + task.title + " completed!", "middle");
+      }
+      this.tasks = this.taskFilter.styleTasks(this.tasks);
+      this.getTaskService.setUserTasks(this.user.id, this.tasks);
+      item.close();
     }
-    this.tasks = this.taskFilter.styleTasks(this.tasks);
-    this.getTaskService.setUserTasks(this.user.id, this.tasks);
-    item.close();
   }
 
   mmmToast(msg: string, pos: string) {

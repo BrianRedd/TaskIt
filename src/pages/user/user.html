@@ -32,18 +32,18 @@
                 <button ion-button clear (click)="editPassword()" *ngIf="!edit.password">
                     <ion-icon name="create"></ion-icon>
                 </button>
-                <button ion-button clear (click)="onCancel()" *ngIf="edit.password">
-                    <ion-icon name="close"></ion-icon>
-                </button>
             </ion-col>
         </ion-row>
         <ion-row align-items-center *ngIf="edit.password">
             <ion-col col-4>
                 <p>Confirm:</p>
             </ion-col>
-            <ion-col col-7>
+            <ion-col col>
                 <ion-input type="password" formControlName="confirm" placeholder="confirm"></ion-input>
             </ion-col>
+            <button ion-button clear (click)="onCancel()" *ngIf="edit.password">
+                <ion-icon name="close"></ion-icon>
+            </button>
         </ion-row>
         <ion-row class="userimage" *ngIf="user.image">
             <ion-col>

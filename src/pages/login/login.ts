@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, ToastController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
+import { Md5 } from "ts-md5/dist/md5";
 //import { Storage } from "@ionic/storage";
 
 import { NewUserPage } from "../../pages/newuser/newuser";
@@ -67,7 +68,13 @@ export class LoginPage {
 
   onSubmit() {
     this.user.username = this.loginForm.get("username").value;
-    this.user.password = this.loginForm.get("password").value;
+    if (this.loginForm.get("password").value.length === 32) {
+      this.user.password = this.loginForm.get("password").value;
+    } else if (this.loginForm.get("password").value.substring(0,1) === "+") {
+      this.user.password = this.loginForm.get("password").value.substring(1);
+    } else {
+      this.user.password = Md5.hashStr(this.loginForm.get("password").value);
+    }
     if (this.loginForm.get("remember").value) {
       this.getUserService.setCTIUser(this.user).subscribe((user) => {
         console.log("User " + user.username + " remembered");

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
+import { Md5 } from "ts-md5/dist/md5";
 
 import { UserModel } from "../../models/usermodel";
 import { UserVO } from "../../shared/UserVO";
@@ -37,8 +38,8 @@ export class UserPage {
     this.editUserForm = this.formBuilder.group({
       firstname: [this.user.firstname, [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
       lastname: [this.user.lastname, [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
-      password: [this.user.password, [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
-      confirm: [this.user.password, [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
+      password: ["", [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
+      confirm: ["", [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
       email: [this.user.email, [Validators.email]],
       birthday: this.user.birthday
     });
@@ -91,24 +92,31 @@ export class UserPage {
   };
 
   onSubmit() {
+    let err: boolean = false;
     this.user.firstname = this.editUserForm.get("firstname").value;
     this.user.lastname = this.editUserForm.get("lastname").value;
-    let password: string = this.editUserForm.get("password").value;
-    let confirm: string = this.editUserForm.get("confirm").value;
+    if (this.editUserForm.get("password").dirty && Md5.hashStr(this.editUserForm.get("password").value) != this.user.password) {
+      let password: any = this.editUserForm.get("password").value;
+      let confirm: string = this.editUserForm.get("confirm").value;
+      if (password != confirm) {
+        this.mmmToast("Password and Confirmation do not match", "middle");
+        err = true;
+      } else {
+        password = Md5.hashStr(password);
+        this.user.password = password;
+      }
+    }
     this.user.email = this.editUserForm.get("email").value;
     this.user.birthday = this.editUserForm.get("birthday").value;
-    if (password != confirm) {
-      this.mmmToast("Password and Confirmation do not match", "middle");
-    } else {
-      this.user.password = password;
-    }
     this.users[this.user.id] = this.user;
-    this.getUserService.setCTIUser(this.user).subscribe((user) => {
-        this.getUserService.setTIUsers(this.users).subscribe((users) => {
-          this.mmmToast("User " + this.user.username + " updated.", "top");
-          this.onCancel();
-        });
-    });
+    if (!err) {
+      this.getUserService.setCTIUser(this.user).subscribe((user) => {
+          this.getUserService.setTIUsers(this.users).subscribe((users) => {
+            this.mmmToast("User " + this.user.username + " updated.", "top");
+            this.onCancel();
+          });
+      });
+    };
   };
 
   onCancel() {

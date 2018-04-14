@@ -79,13 +79,14 @@ export class HomePage  {
         this.tasks.push(newtask);
         this.getTaskService.setUserTasks(this.user.id, this.tasks).subscribe(tasks => {
           this.tasks = tasks;
+          this.nextDueTasks();
         });
       } else {
         this.tasks = tasks;
         //console.log(this.tasks);
         this.tasks = this.taskFilter.sortTasks(this.tasks, "id", "asc");
+        this.nextDueTasks();
       } 
-      this.nextDueTasks();
     });
   }
 
